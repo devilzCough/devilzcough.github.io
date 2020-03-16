@@ -4,8 +4,6 @@ title: "About"
 sitemap: false
 ---
 
-세종대학교 정보보호학과
+세종대학교 컴퓨터공학사
 
 SSG
-
-해킹 & 개발 
