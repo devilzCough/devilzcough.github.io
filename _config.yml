@@ -15,7 +15,7 @@
 minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "ko-KR"
+locale                   : "en-US"
 title                    : "Jiniz Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
@@ -111,8 +111,8 @@ author:
   avatar           : "https://github.com/devilzCough/devilzCough.github.io/blob/master/_posts/img/avatar/cat.jpeg?raw=true"
   bio              : "Master's degree. Computer Science[Dev/ML]"
   location         : "KR"
-  email            : "jiniz.ll@kakao.com"
-  github           : "devilzcough"
+  # email            : "jiniz.ll@kakao.com"
+  # github           : "devilzcough"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
