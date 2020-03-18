@@ -1,5 +1,5 @@
 ---
-title: "개발 일지"
+title: "Development"
 layout: category-dev
 permalink: /dev/
 author_profile: true

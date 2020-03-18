@@ -20,7 +20,7 @@ title                    : "Jiniz Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Jiniz"
-description              : "HelloWorld!"
+description              : "Hi Devilz!"
 url                      : "https://devilzcough.github.io"
 baseurl                  : ""
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Jiniz"
-  avatar           : "https://github.com/devilzCough/devilzCough.github.io/blob/master/_posts/img/avatar/cats.jpeg?raw=true"
+  avatar           : "https://github.com/devilzCough/devilzCough.github.io/blob/master/_posts/img/avatar/cat.jpeg?raw=true"
   bio              : "Student"
   location         : "KR"
   email            : "jiniz.ll@kakao.com"
