@@ -116,7 +116,7 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: mailto:jiniz.ll@kakao.com
+      #url: mailto:jiniz.ll@kakao.com
     # - label: "Website"
     #   icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -128,19 +128,15 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/devilzCough"
+      #url: "https://github.com/devilzCough"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/seungjin.ll"
 
 # Site Header
 header:
-  overlay_image: /assets/images/unsplash-image-1.jpg
-  og_image: /assets/images/page-header-og-image.png
+  image: /assets/images/unsplash-image-1.jpg
   caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
-  actions:
-    - label: "Learn more"
-      url: "https://unsplash.com"
 
 # Site Footer
 footer:
