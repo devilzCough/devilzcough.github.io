@@ -1,5 +1,8 @@
 현재 테마 : minimal-mistakes-jekyll
+
 https://github.com/mmistakes/minimal-mistakes
+
+
 
 속성: _config.yml 파일 수정하기
 
@@ -7,9 +10,13 @@ https://github.com/mmistakes/minimal-mistakes
 - avatar : 프로필 사진. 링크 형태로 지정하기
 - 그 외 기타 값들 변경해야함
 
+
+
 **dir. _data/navigation.yml**
 
 오른쪽 상단에 카테고리 메뉴 지정하는 파일
+
+
 
 **dir. _layouts**
 
@@ -21,9 +28,11 @@ category-dev.html 을 카피해서 `{% for post in site.categories['dev'] %}`
 
 ex. ml 카테고리 → category-ml.html 파일 생성,  `{% for post in site.categories['ml'] %}` 로 변경
 
+
+
 **dir._pages**
 
-- [404.md](http://404.md) : 없는 페이지
+- 404.md : 없는 페이지
 - about.md : About 페이지
 - tag-archive.md : tag 별로 페이지 분류
 - category-archive.md : category 별로 분류

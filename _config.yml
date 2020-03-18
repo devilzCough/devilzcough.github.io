@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "ko-KR"
@@ -20,7 +20,7 @@ title                    : "Jiniz Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Jiniz"
-description              : "Hi Devilz!"
+description              : "Hi, Devilz!"
 url                      : "https://devilzcough.github.io"
 baseurl                  : ""
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -109,16 +109,16 @@ analytics:
 author:
   name             : "Jiniz"
   avatar           : "https://github.com/devilzCough/devilzCough.github.io/blob/master/_posts/img/avatar/cat.jpeg?raw=true"
-  bio              : "Student"
+  bio              : "Master's degree. Computer Science[Dev/ML]"
   location         : "KR"
   email            : "jiniz.ll@kakao.com"
   github           : "devilzcough"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: mailto:your.name@email.com
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
+      url: mailto:jiniz.ll@kakao.com
+    # - label: "Website"
+    #   icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
     # - label: "Twitter"
     #   icon: "fab fa-fw fa-twitter-square"
@@ -128,10 +128,19 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
-    # - label: "Instagram"
-    #   icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://github.com/devilzCough"
+    - label: "Instagram"
+      icon: "fab fa-fw fa-instagram"
+      url: "https://instagram.com/seungjin.ll"
+
+# Site Header
+header:
+  overlay_image: /assets/images/unsplash-image-1.jpg
+  og_image: /assets/images/page-header-og-image.png
+  caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
+  actions:
+    - label: "Learn more"
+      url: "https://unsplash.com"
 
 # Site Footer
 footer:
@@ -144,7 +153,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/devilzcough"
+      url: "https://github.com/devilzCough"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
