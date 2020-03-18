@@ -1,4 +1,5 @@
 현재 테마 : minimal-mistakes-jekyll
+https://github.com/mmistakes/minimal-mistakes
 
 속성: _config.yml 파일 수정하기
 
