@@ -1,6 +1,7 @@
 현재 테마 : minimal-mistakes-jekyll
 
 https://github.com/mmistakes/minimal-mistakes
+blog: https://mmistakes.github.io/minimal-mistakes/
 
 
 
