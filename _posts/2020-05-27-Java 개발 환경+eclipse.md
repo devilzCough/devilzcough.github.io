@@ -15,7 +15,7 @@ toc : true
 ## 1. Jdk 설치
 [Java SE - Downloads | Oracle Technology Network | Oracle](https://www.oracle.com/java/technologies/javase-downloads.html)
 
-```powershell
+```console
 $ java --version
 ```
 -> 정상 설치 여부 확인
@@ -24,7 +24,7 @@ $ java --version
 `/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/home`
 
 - JDK 환경 변수 설정
-```powershell
+```console
 $ sudo vim /etc/profile
 
 # 아래와 같이 추가 후
