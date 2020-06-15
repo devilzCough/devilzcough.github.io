@@ -1,0 +1,925 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.17.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Spring 블로그 만들기] 2. DB 설정 Part 1 - Jiniz Blog</title>
+<meta name="description" content="[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그 ">
+
+
+  <meta name="author" content="Jiniz">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Jiniz Blog">
+<meta property="og:title" content="[Spring 블로그 만들기] 2. DB 설정 Part 1">
+<meta property="og:url" content="http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-1/">
+
+
+  <meta property="og:description" content="[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-06-08T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Jiniz",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jiniz Blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Jiniz Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/dev/" >DEV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ml/" >ML</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/" >CS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/avatar/cat.jpeg" alt="Jiniz" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jiniz</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Master’s degree. Computer Science[Dev/ML]</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">KR</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:jiniz.ll@kakao.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+          
+        
+          
+            <li><a href="https://github.com/devilzCough" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/seungjin.ll" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Spring 블로그 만들기] 2. DB 설정 Part 1">
+    <meta itemprop="description" content="[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그">
+    <meta itemprop="datePublished" content="2020-06-08T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[Spring 블로그 만들기] 2. DB 설정 Part 1
+</h1>
+          
+          <!--
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+
+</p>
+          -->
+          <p class="page_data"><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2020-06-08T00:00:00+09:00">June 08, 2020</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#데이터-베이스-설치가-안-되어-있다면-다음-문서-참고하기">데이터 베이스 설치가 안 되어 있다면 다음 문서 참고하기</a></li>
+  <li><a href="#환경-설정">환경 설정</a>
+    <ul>
+      <li><a href="#데이터베이스-및-사용자-추가">데이터베이스 및 사용자 추가</a></li>
+    </ul>
+  </li>
+  <li><a href="#dependency-추가">Dependency 추가</a></li>
+  <li><a href="#데이터베이스-설정-파일-추가">데이터베이스 설정 파일 추가</a>
+    <ul>
+      <li><a href="#데이터베이스-접속-테스트">데이터베이스 접속 테스트</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>[참고] <a href="https://freehoon.tistory.com/101">Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그</a></p>
+
+<p>다음 블로그에서 진행한 프로젝트를 따라하며 공부 중</p>
+
+<p><strong>개발 환경</strong></p>
+<ul>
+  <li>운영체제 : Mac OS</li>
+  <li>Eclipse : 2020-03 (4.15.0)</li>
+  <li>Tomcat : 9.0</li>
+  <li>DB : MySQL 8.0.19</li>
+</ul>
+
+<h2 id="데이터-베이스-설치가-안-되어-있다면-다음-문서-참고하기">데이터 베이스 설치가 안 되어 있다면 다음 문서 참고하기</h2>
+<p>[MySql Installation &amp; Remove_Mac OS]</p>
+
+<h2 id="환경-설정">환경 설정</h2>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img1.png" alt="img1" />
+web.xml 파일을 보면, <code class="highlighter-rouge">root-context.xml</code> 과 <code class="highlighter-rouge">servlet-context.xml</code> 관련 설정이 있음
+두 파일 위치는 위의 사진과 같다.</p>
+
+<p>실무에서는 보통 설정 파일을 한 폴더에 모아 관리한다고 함
+따라서 <code class="highlighter-rouge">src/main/resources/</code>  아래 두 파일을 관리하려고 함
+<code class="highlighter-rouge">src/main/resources/</code> 아래에 spring 디렉토리 생성하기</p>
+<ul>
+  <li>root-context.xml -&gt; <code class="highlighter-rouge">src/main/resources/spring</code></li>
+  <li>servlet-context.xml -&gt; <code class="highlighter-rouge">src/main/resources/</code>
+로 옮기기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img2.png" alt="img2" /></li>
+</ul>
+
+<p>그리고 web.xml 파일에 위 두 파일 경로를 변경해주기</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context-param&gt;</span>
+		<span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+		<span class="nt">&lt;param-value&gt;</span>classpath:spring/*-context.xml<span class="nt">&lt;/param-value&gt;</span>
+	<span class="nt">&lt;/context-param&gt;</span>
+
+	<span class="nt">&lt;servlet&gt;</span>
+		<span class="nt">&lt;servlet-name&gt;</span>appServlet<span class="nt">&lt;/servlet-name&gt;</span>
+		<span class="nt">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>
+		<span class="nt">&lt;init-param&gt;</span>
+			<span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+			<span class="nt">&lt;param-value&gt;</span>classpath:servlet-context.xml<span class="nt">&lt;/param-value&gt;</span>
+		<span class="nt">&lt;/init-param&gt;</span>
+		<span class="nt">&lt;load-on-startup&gt;</span>1<span class="nt">&lt;/load-on-startup&gt;</span>
+	<span class="nt">&lt;/servlet&gt;</span>
+</code></pre></div></div>
+
+<p>root-context.xml 의 경우에는 <code class="highlighter-rouge">*-context.xml</code> 로 변경함.
+추후 <code class="highlighter-rouge">###-context.xml</code> 파일을 추가할 경우 자동으로 인식 되도록 하기 위함</p>
+
+<h3 id="데이터베이스-및-사용자-추가">데이터베이스 및 사용자 추가</h3>
+<p><code class="highlighter-rouge">mysql -u root -p</code> 를 이용해 mysql에 접속하기
+(또는 워크벤치 이용)</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">create</span> <span class="k">database</span> <span class="p">[</span><span class="n">DB_name</span><span class="p">];</span>
+
+<span class="o">#</span> <span class="k">user</span> <span class="err">추가</span> <span class="err">할</span> <span class="err">때</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">create</span> <span class="k">user</span> <span class="p">[</span><span class="n">userID</span><span class="p">]</span><span class="o">@</span><span class="n">localhost</span> <span class="n">identified</span> <span class="k">by</span> <span class="s1">'[password]'</span><span class="p">;</span>
+<span class="o">#</span> <span class="n">password</span> <span class="err">변경</span> <span class="err">시에는</span> <span class="n">Identified</span><span class="o">~</span> <span class="err">와</span> <span class="err">함께</span> <span class="err">써주면</span> <span class="err">되고</span>
+<span class="o">#</span> <span class="err">아닐</span> <span class="err">경우</span><span class="p">,</span> <span class="err">그</span> <span class="err">앞에</span> <span class="err">까지만</span> <span class="err">써주면</span> <span class="err">된다고</span> <span class="err">함</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="n">GRAND</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="p">[</span><span class="n">DB_name</span><span class="p">].</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'[userID]'</span><span class="o">@</span><span class="s1">'%'</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">'[password]'</span><span class="p">;</span>
+<span class="o">#</span> <span class="err">설정</span> <span class="err">내용을</span> <span class="err">반영하는</span> <span class="err">명령어</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span>
+</code></pre></div></div>
+<p>[참고] [MySQL 사용하기]</p>
+
+<h2 id="dependency-추가">Dependency 추가</h2>
+<p>pom.xml 파일에 아래 dependency 추가하기</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- mysql --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>8.0.19<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+		<span class="c">&lt;!-- mybatis --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>org.mybatis<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>mybatis<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>3.4.6<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+
+		<span class="c">&lt;!-- mybatis-spring --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>org.mybatis<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>mybatis-spring<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>1.3.2<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+		<span class="c">&lt;!-- spring-jdbc --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>spring-jdbc<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>${org.springframework-version}<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+
+		<span class="c">&lt;!-- spring-test --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>spring-test<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>${org.springframework-version}<span class="nt">&lt;/version&gt;</span>
+		    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>테스트를 위해 junit 버전을 4.12로 수정</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Test --&gt;</span>
+		<span class="nt">&lt;dependency&gt;</span>
+			<span class="nt">&lt;groupId&gt;</span>junit<span class="nt">&lt;/groupId&gt;</span>
+			<span class="nt">&lt;artifactId&gt;</span>junit<span class="nt">&lt;/artifactId&gt;</span>
+			<span class="nt">&lt;version&gt;</span>4.12<span class="nt">&lt;/version&gt;</span>
+			<span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>자바나 스프링 버전 등도 수정해 줌</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;properties&gt;</span>
+		<span class="nt">&lt;java-version&gt;</span>1.8<span class="nt">&lt;/java-version&gt;</span>
+		<span class="nt">&lt;org.springframework-version&gt;</span>5.1.4.RELEASE<span class="nt">&lt;/org.springframework-version&gt;</span>
+		<span class="nt">&lt;org.aspectj-version&gt;</span>1.9.2<span class="nt">&lt;/org.aspectj-version&gt;</span>
+		<span class="nt">&lt;org.slf4j-version&gt;</span>1.7.25<span class="nt">&lt;/org.slf4j-version&gt;</span>
+	<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div></div>
+
+<p>[참고] 각 라이브러리에 대한 최신 정보 : <a href="https://mvnrepository.com/">Maven Repository: Search/Browse/Explore</a></p>
+
+<p>JDK 버전을 수정해 주었다면,
+프로젝트 <code class="highlighter-rouge">우클릭 -&gt; Maven -&gt; Update Project</code>  해주기</p>
+
+<h2 id="데이터베이스-설정-파일-추가">데이터베이스 설정 파일 추가</h2>
+<p><code class="highlighter-rouge">dataSource-context.xml</code> 파일을 <code class="highlighter-rouge">src/main/resources/spring/</code> 아래에 생성 후, 다음 내용 추가</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+	<span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+	<span class="na">xmlns:mybatis-spring=</span><span class="s">"http://mybatis.org/schema/mybatis-spring"</span>
+	<span class="na">xsi:schemaLocation=</span><span class="s">"
+
+	http://mybatis.org/schema/mybatis-spring
+	http://mybatis.org/schema/mybatis-spring.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span class="nt">&gt;</span>
+
+	<span class="c">&lt;!--dataSource 객체 설정 --&gt;</span>
+	<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"dataSource"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.datasource.DriverManagerDataSource"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"driverClassName"</span> <span class="na">value=</span><span class="s">"com.mysql.cj.jdbc.Driver"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">value=</span><span class="s">"jdbc:mysql://127.0.0.1:3306/[DB_name]?useSSL=false&amp;amp;serverTimezone=Asia/Seoul"</span> <span class="nt">/&gt;</span>       
+	        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">value=</span><span class="s">"[userID]"</span><span class="nt">&gt;&lt;/property&gt;</span>
+	        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">value=</span><span class="s">"[password]"</span><span class="nt">&gt;&lt;/property&gt;</span>
+	<span class="nt">&lt;/bean&gt;</span>
+
+	<span class="c">&lt;!-- SqlSessionFactory 객체 설정 --&gt;</span>
+	<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"SqlSessionFactory"</span> <span class="na">class=</span><span class="s">"org.mybatis.spring.SqlSessionFactoryBean"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"dataSource"</span> <span class="nt">/&gt;</span>       
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"mapperLocations"</span> <span class="na">value=</span><span class="s">"classpath:/mappers/**/*Mapper.xml"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/bean&gt;</span>
+
+	<span class="c">&lt;!-- SqlSession Template 설정 --&gt;</span>
+	<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"sqlSession"</span> <span class="na">class=</span><span class="s">"org.mybatis.spring.SqlSessionTemplate"</span> <span class="na">destroy-method=</span><span class="s">"clearCache"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;constructor-arg</span> <span class="na">name=</span><span class="s">"sqlSessionFactory"</span> <span class="na">ref=</span><span class="s">"SqlSessionFactory"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/bean&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</code></pre></div></div>
+<p>위 내용 중 첫번째 bean 의 [DB_name], [userID], [password] 에 사용할 데이터베이스 명, 유저 아이디, 패스워드 입력하기</p>
+
+<p>SqlSessionFactory 안에 mapperLocations 에는 데이터베이스에 실행할 sql 쿼리문이 있는 위치</p>
+
+<p><code class="highlighter-rouge">classpath:</code> 는 <code class="highlighter-rouge">src/main/resources</code> 를 의미함</p>
+
+<p><code class="highlighter-rouge">src/main/resources</code> 에 <code class="highlighter-rouge">mappers/boardMapper.xml</code> 만들기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img3.png" alt="img3" /></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mapper
+    PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span>
+
+<span class="nt">&lt;mapper</span> <span class="na">namespace=</span><span class="s">"[본인 패키지 명].[프로그램명].[파일명]"</span><span class="nt">&gt;&lt;/mapper&gt;</span>
+</code></pre></div></div>
+<p>Ex. com.jiniz.blog.board.boardMapper
+Namespace : 나중에 작성할 DAO 구현체 쪽에서 원하는 mapper 를 찾기 위함
+But, 반드시 저 방식으로 namespace 를 작성할 필요는 없음</p>
+
+<h3 id="데이터베이스-접속-테스트">데이터베이스 접속 테스트</h3>
+<p><code class="highlighter-rouge">src/test/java</code> 안에 <code class="highlighter-rouge">com.jiniz.blog</code> 패키지 안에 MysqlConnectionTest.java 와 MybatisTest.java 파일 생성하기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img4.png" alt="img4" /></p>
+
+<p><strong>데이터 베이스 접속 테스트</strong>
+MysqlConnectionTest.java</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.jiniz.blog</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.inject.Inject</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.ContextConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringJUnit4ClassRunner</span><span class="o">;</span>
+
+<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@ContextConfiguration</span><span class="o">(</span><span class="n">locations</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"classpath:spring/dataSource-context.xml"</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MysqlConnectionTest</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">MysqlConnectionTest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+
+	<span class="nd">@Inject</span>
+	<span class="kd">private</span> <span class="nc">DataSource</span> <span class="n">ds</span><span class="o">;</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testConnection</span><span class="o">()</span> <span class="o">{</span>
+
+		<span class="k">try</span> <span class="o">(</span><span class="nc">Connection</span> <span class="n">con</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="na">getConnection</span><span class="o">()){</span>
+
+			<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"\n MySQL 연결 : "</span> <span class="o">+</span> <span class="n">con</span><span class="o">);</span>
+
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>코드 작성 후, 프로젝트 <code class="highlighter-rouge">우클릭 -&gt; Run as -&gt; JUnit Test</code> 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img5.png" alt="img5" /></p>
+
+<p>다음과 같이 나오면 정상적으로 접속 되었다는 의미</p>
+
+<p><strong>MyBatis 설정 테스트</strong>
+MybatisTest.java</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.jiniz.blog</span><span class="o">;</span>
+
+<span class="c1">//import javax.annotation.Resource;</span>
+<span class="kn">import</span> <span class="nn">javax.inject.Inject</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.apache.ibatis.session.SqlSession</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.ibatis.session.SqlSessionFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.ContextConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringJUnit4ClassRunner</span><span class="o">;</span>
+
+<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@ContextConfiguration</span><span class="o">(</span><span class="n">locations</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"classpath:spring/dataSource-context.xml"</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MybatisTest</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">MybatisTest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+	<span class="nd">@Inject</span>
+	<span class="kd">private</span> <span class="nc">SqlSessionFactory</span> <span class="n">sessionFactory</span><span class="o">;</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testSessionFactory</span><span class="o">()</span> <span class="o">{</span>
+
+		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"\n Session Factory : "</span> <span class="o">+</span> <span class="n">sessionFactory</span><span class="o">);</span>
+
+	<span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testSqlSession</span><span class="o">()</span> <span class="o">{</span>
+
+		<span class="k">try</span> <span class="o">(</span><span class="nc">SqlSession</span> <span class="n">session</span> <span class="o">=</span> <span class="n">sessionFactory</span><span class="o">.</span><span class="na">openSession</span><span class="o">()){</span>
+
+			<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"\n Sql Session : "</span> <span class="o">+</span> <span class="n">session</span><span class="o">);</span>
+
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog2-1/img6.png" alt="img6" />
+다음과 같이 나오면 정상적으로 접속 완료</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#development" class="page__taxonomy-item" rel="tag">Development</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#eclipse" class="page__taxonomy-item" rel="tag">Eclipse</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#spring" class="page__taxonomy-item" rel="tag">Spring</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#dev" class="page__taxonomy-item" rel="tag">dev</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-06-08T00:00:00+09:00">June 8, 2020</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BSpring+%EB%B8%94%EB%A1%9C%EA%B7%B8+%EB%A7%8C%EB%93%A4%EA%B8%B0%5D+2.+DB+%EC%84%A4%EC%A0%95+Part+1%20http%3A%2F%2Flocalhost%3A4000%2Fdev%2FSpring-%25EB%25B8%2594%25EB%25A1%259C%25EA%25B7%25B8-%25EB%25A7%258C%25EB%2593%25A4%25EA%25B8%25B0-2.-DB-%25EC%2584%25A4%25EC%25A0%2595-Part-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdev%2FSpring-%25EB%25B8%2594%25EB%25A1%259C%25EA%25B7%25B8-%25EB%25A7%258C%25EB%2593%25A4%25EA%25B8%25B0-2.-DB-%25EC%2584%25A4%25EC%25A0%2595-Part-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdev%2FSpring-%25EB%25B8%2594%25EB%25A1%259C%25EA%25B7%25B8-%25EB%25A7%258C%25EB%2593%25A4%25EA%25B8%25B0-2.-DB-%25EC%2584%25A4%25EC%25A0%2595-Part-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1.-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%84%A4%EC%A0%95/" class="pagination--pager" title="[Spring 블로그 만들기] 1. 프로젝트 생성 및 설정
+">Previous</a>
+    
+    
+      <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-2/" class="pagination--pager" title="[Spring 블로그 만들기] 2. DB 설정 Part 2
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/4.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.4-%EC%A0%9C%EC%96%B4%EC%9D%98-%EC%97%AD%EC%A0%84(IoC)/" rel="permalink"><ol>
+  <li>[토비의 스프링] 1.4 제어의 역전(IoC)</li>
+</ol>
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 14 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">토비의 스프링 책의 실습 및 정리
+
+  실습 내용 : 1.4 제어의 역전(IoC)
+  실습 환경 : Eclipse / Mac OS
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-2/" rel="permalink">[Spring 블로그 만들기] 2. DB 설정 Part 2
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 13 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.2 :: 훈잇 블로그
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1.-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%84%A4%EC%A0%95/" rel="permalink">[Spring 블로그 만들기] 1. 프로젝트 생성 및 설정
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 08 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">[참고] Spring 블로그 만들기 - 1. 프로젝트 생성 및 character encoding setting :: 훈잇 블로그
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/3.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.3-DAO%EC%9D%98-%ED%99%95%EC%9E%A5/" rel="permalink"><ol>
+  <li>[토비의 스프링] 1.3 DAO의 확장</li>
+</ol>
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 08 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">토비의 스프링 책의 실습 및 정리
+
+  실습 내용 : 1.3 DAO의 확장
+  실습 환경 : Eclipse / Mac OS
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/devilzCough" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Jiniz. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

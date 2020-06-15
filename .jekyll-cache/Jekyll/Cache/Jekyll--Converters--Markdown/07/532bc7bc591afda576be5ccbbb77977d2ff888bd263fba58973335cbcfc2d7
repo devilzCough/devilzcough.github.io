@@ -1,0 +1,379 @@
+I" 4<p>[참고] <a href="https://freehoon.tistory.com/102">Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.2 :: 훈잇 블로그</a></p>
+
+<p>다음 블로그에서 진행한 프로젝트를 따라하며 공부 중</p>
+
+<p><strong>개발 환경</strong></p>
+<ul>
+  <li>운영체제 : Mac OS</li>
+  <li>Eclipse : 2020-03 (4.15.0)</li>
+  <li>Tomcat : 9.0</li>
+  <li>DB : MySQL 8.0.19</li>
+</ul>
+
+<h2 id="create-table">Create Table</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">posts</span><span class="p">(</span>
+
+  <span class="n">pid</span>       <span class="nb">int</span> <span class="n">auto_increment</span> <span class="k">comment</span> <span class="s1">'일련번호'</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+  <span class="n">category</span>  <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>   <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'게시글 카테고리'</span><span class="p">,</span>
+  <span class="n">title</span>     <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>  <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'제목'</span><span class="p">,</span>
+  <span class="n">contents</span>  <span class="nb">text</span>          <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'게시글'</span><span class="p">,</span>
+  <span class="n">tag</span>       <span class="nb">varchar</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'태그'</span><span class="p">,</span>
+  <span class="n">view_cnt</span>  <span class="nb">int</span> <span class="k">default</span> <span class="mi">0</span> <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'카운트'</span><span class="p">,</span>
+  <span class="n">author</span>	  <span class="nb">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>   <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'작성자'</span><span class="p">,</span>
+  <span class="n">created</span>   <span class="nb">date</span>          <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'작성일'</span><span class="p">,</span>
+  <span class="n">modified</span>  <span class="nb">date</span>          <span class="k">not</span> <span class="k">null</span> <span class="k">comment</span> <span class="s1">'수정일'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>프로젝트 진행 순서</strong>
+이제 부터 게시판 리스트 조회, 게시물 조회(상세내역보기)/등록/수정/삭제 등의 기능을 만들 것인데, 기능 구현은 DB 쪽 부터 시작할 것임</p>
+
+<p><code class="highlighter-rouge">VO -&gt; DAO -&gt; Service -&gt; Controller -&gt; View</code></p>
+
+<h2 id="post-vo-만들기">Post VO 만들기</h2>
+<p><code class="highlighter-rouge">src/main/java</code></p>
+<ul>
+  <li>Package : com.jiniz.blog.board.model</li>
+  <li>Name : PostVO
+```java
+package com.jiniz.blog.board.model;</li>
+</ul>
+
+<p>public class PostVO {</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public int pid;
+public String category;
+public String title;
+public String contents;
+public String tag;
+public int view_cnt;
+public String author;
+public String created;
+public String modified; } ```
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Source -&gt; Generate Getters and Setters</code> 선택 후, 필요한 것을 선택 후 <code class="highlighter-rouge">Generate</code>. 모두 생성하는 경우 Select all 선택 후 생성</p>
+
+<p><code class="highlighter-rouge">Source -&gt; Generate toString()</code> 선택 후, <code class="highlighter-rouge">Generate</code></p>
+
+<h2 id="sql-쿼리-만들기">SQL 쿼리 만들기</h2>
+<p>이전에 생성한 <code class="highlighter-rouge">boardMapper.xml</code>  열기</p>
+<mapper> 태그 사이에 다음 내용 추가하기
+```xml
+<mapper namespace="com.jiniz.blog.board.boardMapper">
+	<select id="getPostList" resulttype="com.jiniz.blog.board.model.PostVO">
+
+		SELECT PID, CATEGORY, TITLE, CONTENTS, TAG, VIEW_CNT, AUTHOR, CREATED, MODIFIED
+		FROM POSTS
+
+	</select>
+
+	<select id="getPostContents" resulttype="com.jiniz.blog.board.model.PostVO" parametertype="com.jiniz.blog.board.model.PostVO">
+
+		SELECT PID, CATEGORY, TITLE, CONTENTS, TAG, VIEW_CNT, AUTHOR, CREATED, MODIFIED
+		FROM POSTS
+		WHERE PID = #{pid}
+
+	</select>
+
+	<insert id="insertPost" parameterType="com.jiniz.blog.board.model.PostVO">
+
+		INSERT INTO POSTS (CATEGORY, TITLE, CONTENTS, TAG, VIEW_CNT, AUTHOR, CREATED, MODIFIED)
+		VALUES (
+			#{category}
+			, #{title}
+			, #{contents}
+			, #{tag}
+			, 0
+			, #{author}
+			, now()
+			, now()
+		)
+
+	</insert>
+
+	<update id="updatePost" parameterType="com.jiniz.blog.board.model.PostVO">
+
+		UPDATE POSTS SET
+			CATEGORY = #{category}
+			, TITLE = #{title}
+			, CONTENTS = #{contents}
+			, TAG = #{tag}
+			, MODIFIED = now()
+		WHERE
+			PID = ${pid}
+
+	</update>
+
+	<delete id="deletePost" parameterType="int">
+
+		DELETE FROM POSTS
+		WHERE PID = #{pid}
+
+	</delete>
+
+	<update id="updateViewCnt" parameterType="com.jiniz.blog.board.model.PostVO">
+
+		UPDATE POSTS SET VIEW_CNT = VIEW_CNT + 1
+		WHERE PID = #{pid}
+
+	</update>
+</mapper>
+```
+
+## DAO 만들기
+
+- Package : com.jiniz.blog.board.dao
+- Name : PostDAO (interface)
+```java
+package com.jiniz.blog.board.dao;
+
+import java.util.List;
+
+import com.jiniz.blog.board.model.PostVO;
+
+public interface PostDAO {
+
+	public List<PostVO> getPostList() throws Exception;
+	public PostVO getPostContents(int pid) throws Exception;
+	public int insertPost(PostVO postVO) throws Exception;
+	public int updatePost(PostVO postVO) throws Exception;
+	public int deletePost(int pid) throws Exception;
+	public int updateViewCnt(int pid) throws Exception;
+}
+```
+
+- Package : com.jiniz.blog.board.dao
+- Name : PostDAOImpl
+```java
+package com.jiniz.blog.board.dao;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.jiniz.blog.board.model.PostVO;
+
+@Repository
+public class PostDAOImpl implements PostDAO {
+
+	@Inject
+	private SqlSession sqlSession;
+
+	@Override
+	public List<PostVO> getPostList() throws Exception {
+
+		return sqlSession.selectList("com.jiniz.blog.board.boardMapper.getPostList");
+	}
+
+	@Override
+	public PostVO getPostContents(int pid) throws Exception {
+
+		return sqlSession.selectOne("com.jiniz.blog.board.boardMapper.getPostContents", pid);
+	}
+
+	@Override
+	public int insertPost(PostVO postVO) throws Exception {
+
+		return sqlSession.insert("com.jiniz.blog.board.boardMapper.insertPost", postVO);
+	}
+
+	@Override
+	public int updatePost(PostVO postVO) throws Exception {
+
+		return sqlSession.update("com.jiniz.blog.board.boardMapper.updatePost", postVO);
+	}
+
+	@Override
+	public int deletePost(int pid) throws Exception {
+
+		return sqlSession.insert("com.jiniz.blog.board.boardMapper.deletePost", pid);
+	}
+
+	@Override
+	public int updateViewCnt(int pid) throws Exception {
+
+		return sqlSession.update("com.jiniz.blog.board.boardMapper.updateViewCnt", pid);
+	}
+}
+```
+
+SqlSession 객체를 통해 boardMapper에 작성한 SQL 문을 실행할 수 있음
+SqlSession 객첵 지원하는 메소드
+```
+<T> T selectOne(String statement, Object parameter)
+<E> List<E> selectList(String statement, Object parameter)
+&lt;K,V&gt; Map&lt;K,V&gt; selectMap(String statement, Object parameter, String mapKey)
+int insert(String statement, Object parameter)
+int update(String statement, Object parameter)
+int delete(String statement, Object parameter)
+```
+참고. https://mybatis.org/mybatis-3/ko/java-api.html
+
+## 쿼리 호출 테스트
+
+이대로 테스트를 하면 에러가 발생해서 `dataSource-context.xml` 위 <beans> 태그 내용을 다음과 같이 수정이 필요함
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" xsi:schemaLocation="
+
+	http://mybatis.org/schema/mybatis-spring
+	http://mybatis.org/schema/mybatis-spring.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<!-- 요 내용도 추가로 넣어주기 -->
+<context:component-scan base-package="com.jiniz.blog.board.dao"></context:component-scan>
+```
+
+`src/test/java`
+- Package : com.jiniz.blog
+- Name : PostDAOTest
+```java
+package com.jiniz.blog;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.jiniz.blog.board.dao.PostDAO;
+import com.jiniz.blog.board.model.PostVO;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+		"classpath:spring/root-context.xml",
+		"classpath:spring/dataSource-context.xml"
+		})
+
+public class PostDaoTest {
+
+	private static final Logger logger = LoggerFactory.getLogger(PostDaoTest.class);
+
+	@Inject
+	private PostDAO postDAO;
+
+	@Test
+	public void testGetPostList() throws Exception {
+
+		List<PostVO> postList = postDAO.getPostList();
+		logger.info("\n Post List \n ");
+
+		if (postList.size() &gt; 0) {
+			for(PostVO list : postList) {
+				logger.info(list.title);
+			}
+		} else {
+			logger.info("데이터가 없습니다.");
+		}
+	}
+
+	@Test @Ignore
+	public void testGetPostContents() throws Exception {
+
+		PostVO postVO = postDAO.getPostContents(1);
+		logger.info("\n Post List \n ");
+
+		if (postVO != null) {
+			logger.info("글번호 : " + postVO.getPid());
+			logger.info("글제목 : " + postVO.getTitle());
+			logger.info("글내용 : " + postVO.getContents());
+			logger.info("글태그 : " + postVO.getTag());
+			logger.info("조회수 : " + postVO.getView_cnt());
+			logger.info("작성자 : " + postVO.getAuthor());
+			logger.info("작성일 : " + postVO.getCreated());
+			logger.info("수정일 : " + postVO.getModified());
+		} else {
+			logger.info("데이터가 없습니다.");
+		}
+	}
+
+	@Test @Ignore
+	public void testInsertPost() throws Exception {
+
+		PostVO postVO = new PostVO();
+		postVO.setCategory("1");
+		postVO.setTitle("첫번째 게시물 입니다.");
+		postVO.setContents("첫번째 게시물입니다.");
+		postVO.setTag("1");
+		postVO.setAuthor("1");
+
+		int result = postDAO.insertPost(postVO);
+		logger.info("\n Insert Post Result " + result);
+
+		if (result == 1) {
+			logger.info("\n 게시물 등록 성공 ");
+		} else {
+			logger.info("\n 게시물 등록 실패");
+		}
+	}
+
+	@Test @Ignore
+	public void testUpdatePost() throws Exception {
+
+		PostVO postVO = new PostVO();
+		postVO.setPid(1);
+		postVO.setCategory("1");
+		postVO.setTitle("첫번째 게시물 입니다-수정 합니다.");
+		postVO.setContents("첫번째 게시물입니다-수정합니다.");
+		postVO.setTag("1-1");
+
+		int result = postDAO.updatePost(postVO);
+		logger.info("\n Update Post Result \n ");
+
+		if (result &gt; 0) {
+			logger.info("\n 게시물 수정 성공 ");
+		} else {
+			logger.info("\n 게시물 수정 실패");
+		}
+	}
+
+	@Test @Ignore
+	public void testDeletePost() throws Exception {
+
+		int result = postDAO.deletePost(1);
+		logger.info("\n Delete Post Result \n ");
+
+		if (result &gt; 0) {
+			logger.info("\n 게시물 삭제 성공 ");
+		} else {
+			logger.info("\n 게시물 삭제 실패");
+		}
+	}
+
+	@Test @Ignore
+	public void testUpdateViewCnt() throws Exception {
+
+		int result = postDAO.updateViewCnt(1);
+		logger.info("\n Update View Count Result \n ");
+
+		if (result &gt; 0) {
+			logger.info("\n 게시물 조회수 업데이트 성공 ");
+		} else {
+			logger.info("\n 게시물 조회수 업데이트 실패");
+		}
+	}
+}
+```
+
+만약 `spring fail to obtain jdbc connection public key retrieval is not allowed` 에러가 발생한다면 dataSource-context.xml 파일중 jdbc 설정 부분에 다음 내용 추가해주기  `allowPublicKeyRetrieval=true&amp;useSSL=false`  
+```xml
+<property name="url" value="jdbc:mysql://127.0.0.1:3306/[DB_name]?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=Asia/Seoul" />
+```
+
+`@Ignore` 는 해당 테스트 메소드를 실행시키지 않는 기능을 하는데
+위와 같이 여러 메소드를 테스트할 때 실행 순서를 특정 지을 수 없으므로 @Ignore 를 변경해 가면서 테스트 해보기
+**순서** : GetList -&gt; Insert -&gt; GetContents -&gt; Update -&gt; Delete
+</PostVO></beans></beans></E></E></T></PostVO></PostVO></mapper>
+:ET

@@ -1,0 +1,58 @@
+I"�<h2 id="1-jdk-설치">1. Jdk 설치</h2>
+<p><a href="https://www.oracle.com/java/technologies/javase-downloads.html">Java SE - Downloads | Oracle Technology Network | Oracle</a></p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">java</span><span class="w"> </span><span class="nt">--version</span><span class="w">
+</span></code></pre></div></div>
+<p>-&gt; 정상 설치 여부 확인</p>
+
+<ul>
+  <li>
+    <p>설치 파일 위치
+<code class="highlighter-rouge">/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/home</code></p>
+  </li>
+  <li>
+    <p>JDK 환경 변수 설정</p>
+  </li>
+</ul>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">sudo</span><span class="w"> </span><span class="nx">vim</span><span class="w"> </span><span class="nx">/etc/profile</span><span class="w">
+
+</span><span class="c"># 아래와 같이 추가 후</span><span class="w">
+</span><span class="c"># 터미널 재실행하여</span><span class="w">
+</span><span class="c"># java --version 명령어 실행 여부 확인</span><span class="w">
+</span><span class="nf">export</span><span class="w"> </span><span class="nx">JAVA_HOME</span><span class="o">=</span><span class="nf">/Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home</span><span class="w"> </span><span class="nx">export</span><span class="w"> </span><span class="nx">CLASSPATH</span><span class="o">=.</span><span class="p">:</span><span class="nv">$JAVA_HOME</span><span class="nf">/lib/tools.jar</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>java 코드 작성해보기</li>
+</ul>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">vim</span><span class="w"> </span><span class="nx">Test.java</span><span class="w">
+
+</span><span class="c"># 아래 내용</span><span class="w">
+</span><span class="kr">public</span><span class="w"> </span><span class="kr">class</span><span class="w"> </span><span class="nc">Test</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">public</span><span class="w"> </span><span class="kr">static</span><span class="w"> </span><span class="nf">void</span><span class="w"> </span><span class="nx">main</span><span class="p">(</span><span class="nf">String</span><span class="p">[]</span><span class="w"> </span><span class="nf">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nf">System.out.println</span><span class="p">(</span><span class="s2">"Hello Java!"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+
+</span><span class="c"># compile</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">javac</span><span class="w"> </span><span class="p">[</span><span class="kt">filename</span><span class="p">]</span><span class="o">.</span><span class="nf">java</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nx">java</span><span class="w"> </span><span class="p">[</span><span class="kt">filename</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+<p>-&gt; 정상 작동 여부 확인하기</p>
+
+<h2 id="2-eclipse-사이트에서-설치">2. Eclipse 사이트에서 설치</h2>
+<p><a href="https://www.eclipse.org/downloads/">Eclipse Downloads | The Eclipse Foundation</a>
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200527/img1.png" alt="img1" /></p>
+
+<p>Eclipse IDE 설치에는 두 가지 방법이 있는데
+	1. <code class="highlighter-rouge">Download 64bit</code> 라고 써있는 주황색 버튼을 눌러서 installer 를 다운로드 한 뒤 원하는 IDE 를 선택하는 방법이 있고
+	2. 주황색 버튼 아래에 <code class="highlighter-rouge">Download Packages</code> 버튼을 누르면 아래와 같이 원하는 IDE 를 바로 설치할 수도 있다.
+	<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200527/img2.png" alt="img2" /></p>
+
+<h2 id="3-2-1을-선택했다면-installer-실행-후-본인이-사용할-것과-적합한-ide-로-설치해야한다">3. 2-1을 선택했다면 Installer 실행 후, 본인이 사용할 것과 적합한 IDE 로 설치해야한다.</h2>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200527/img3.png" alt="img3" /></p>
+<ul>
+  <li>Java 프로젝트
+-&gt; Eclipse IDE for Java Developers</li>
+  <li>Spring 프로젝트
+-&gt; Eclipse IDE for Enterprise Java Developers</li>
+</ul>
+:ET

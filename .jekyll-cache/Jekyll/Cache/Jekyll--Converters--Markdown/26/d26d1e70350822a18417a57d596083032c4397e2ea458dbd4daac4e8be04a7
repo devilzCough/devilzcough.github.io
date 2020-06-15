@@ -1,0 +1,21 @@
+I"D<ul class="toc__menu">
+  <li><a href="#클래스의-분리">클래스의 분리</a>
+    <ul>
+      <li><a href="#db-커넥션-기능-분리">DB 커넥션 기능 분리</a></li>
+      <li><a href="#userdao-코드-수정하기">UserDao 코드 수정하기</a></li>
+    </ul>
+  </li>
+  <li><a href="#인터페이스-도입">인터페이스 도입</a>
+    <ul>
+      <li><a href="#관계설정-책임의-분리">관계설정 책임의 분리</a></li>
+    </ul>
+  </li>
+  <li><a href="#원칙과-패턴">원칙과 패턴</a>
+    <ul>
+      <li><a href="#객체지향-설계-원칙-개방-폐쇄-원칙-ocp-open-closed-principle">[객체지향 설계 원칙] 개방 폐쇄 원칙 OCP, Open-Closed Principle</a></li>
+      <li><a href="#소프트웨어-개발-원리-높은-응집도와-낮은-결합도-high-coherence-and-low-coupling">[소프트웨어 개발 원리] 높은 응집도와 낮은 결합도 High Coherence and Low Coupling</a></li>
+      <li><a href="#디자인-패턴-전략-패턴-strategy-pattern">[디자인 패턴] 전략 패턴 Strategy Pattern</a></li>
+    </ul>
+  </li>
+</ul>
+:ET

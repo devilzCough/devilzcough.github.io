@@ -1,0 +1,929 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.17.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>  [토비의 스프링] 1.1 초난감 DAO - Jiniz Blog</title>
+<meta name="description" content="토비의 스프링 책을 실습해보기 위해 프로젝트 생성    실습 내용 : 1.1 초난감 DAO   실습 환경 : Eclipse / Mac OS  ">
+
+
+  <meta name="author" content="Jiniz">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Jiniz Blog">
+<meta property="og:title" content="  [토비의 스프링] 1.1 초난감 DAO">
+<meta property="og:url" content="http://localhost:4000/dev/1.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.1-%EC%B4%88%EB%82%9C%EA%B0%90-DAO/">
+
+
+  <meta property="og:description" content="토비의 스프링 책을 실습해보기 위해 프로젝트 생성    실습 내용 : 1.1 초난감 DAO   실습 환경 : Eclipse / Mac OS  ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-06-01T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/dev/1.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.1-%EC%B4%88%EB%82%9C%EA%B0%90-DAO/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Jiniz",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jiniz Blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Jiniz Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/dev/" >DEV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ml/" >ML</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/" >CS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/avatar/cat.jpeg" alt="Jiniz" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jiniz</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Master’s degree. Computer Science[Dev/ML]</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">KR</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:jiniz.ll@kakao.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+          
+        
+          
+            <li><a href="https://github.com/devilzCough" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/seungjin.ll" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="  [토비의 스프링] 1.1 초난감 DAO">
+    <meta itemprop="description" content="토비의 스프링 책을 실습해보기 위해 프로젝트 생성  실습 내용 : 1.1 초난감 DAO  실습 환경 : Eclipse / Mac OS">
+    <meta itemprop="datePublished" content="2020-06-01T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline"><ol>
+  <li>[토비의 스프링] 1.1 초난감 DAO</li>
+</ol>
+</h1>
+          
+          <!--
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+
+</p>
+          -->
+          <p class="page_data"><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2020-06-01T00:00:00+09:00">June 01, 2020</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#project-생성">Project 생성</a>
+    <ul>
+      <li><a href="#1-아래와-같이-file---new---other-선택">1. 아래와 같이 File -&gt; New -&gt; Other 선택</a></li>
+      <li><a href="#2-spring---spring-legacy-project-선택-후-next">2. Spring -&gt; Spring Legacy Project 선택 후, Next</a></li>
+      <li><a href="#3-원하는-프로젝트-명-입력-및-simple-spring-web-maven-선택-후-finish">3. 원하는 프로젝트 명 입력 및 Simple Spring Web Maven 선택 후, Finish</a></li>
+      <li><a href="#4-프로젝트-에러가-발생하는-경우프로젝트-아이콘에-빨간색-x-표시-프로젝트-우클릭-후-maven---update-project-선택-후-ok">4. 프로젝트 에러가 발생하는 경우(프로젝트 아이콘에 빨간색 x 표시), 프로젝트 우클릭 후 Maven -&gt; Update Project 선택 후 OK</a></li>
+    </ul>
+  </li>
+  <li><a href="#user">User</a>
+    <ul>
+      <li><a href="#1-프로젝트-폴더-중-src-폴더에서-우클릭---new---other-선택">1. 프로젝트 폴더 중 src 폴더에서 우클릭 -&gt; New -&gt; Other 선택</a></li>
+      <li><a href="#2-class-선택-후-next">2. Class 선택 후 Next</a></li>
+      <li><a href="#3-package-명과-파일명-모두-본인이-원하는-데로-지으면-되는데-본인의-경우-toby-스프링-실습-내용을-동일하게-실행해보려-함">3. Package 명과 파일명 모두 본인이 원하는 데로 지으면 되는데, 본인의 경우 Toby 스프링 실습 내용을 동일하게 실행해보려 함</a></li>
+      <li><a href="#4-다음과-같이-파일이-생성됨">4. 다음과 같이 파일이 생성됨</a></li>
+      <li><a href="#5-사용자-정보-저장용-자바빈-user-클래스">5. 사용자 정보 저장용 자바빈 User 클래스</a></li>
+      <li><a href="#6-본인이-편한-db를-이용하여-user-테이블-만들기">6. 본인이 편한 DB를 이용하여 USER 테이블 만들기</a></li>
+    </ul>
+  </li>
+  <li><a href="#user-dao">User Dao</a>
+    <ul>
+      <li><a href="#1-user-dao-클래스">1. User Dao 클래스</a></li>
+      <li><a href="#2-dao-테스트-코드">2. DAO 테스트 코드</a></li>
+      <li><a href="#3-db-driver-connector">3. DB Driver Connector</a></li>
+      <li><a href="#4-실행-시-발생-에러">4. 실행 시 발생 에러</a></li>
+      <li><a href="#5-test-코드-실행-결과">5. Test 코드 실행 결과</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p><strong>토비의 스프링 책을 실습해보기 위해 프로젝트 생성</strong></p>
+<ul>
+  <li>실습 내용 : 1.1 초난감 DAO</li>
+  <li>실습 환경 : Eclipse / Mac OS</li>
+</ul>
+
+<h2 id="project-생성">Project 생성</h2>
+
+<h3 id="1-아래와-같이-file---new---other-선택">1. 아래와 같이 <code class="highlighter-rouge">File -&gt; New -&gt; Other</code> 선택</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img1.png" alt="img1" /></p>
+
+<h3 id="2-spring---spring-legacy-project-선택-후-next">2. <code class="highlighter-rouge">Spring -&gt; Spring Legacy Project</code> 선택 후, Next</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img2.png" alt="img2" /></p>
+
+<h3 id="3-원하는-프로젝트-명-입력-및-simple-spring-web-maven-선택-후-finish">3. 원하는 프로젝트 명 입력 및 <code class="highlighter-rouge">Simple Spring Web Maven</code> 선택 후, Finish</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img3.png" alt="img3" /></p>
+
+<h3 id="4-프로젝트-에러가-발생하는-경우프로젝트-아이콘에-빨간색-x-표시-프로젝트-우클릭-후-maven---update-project-선택-후-ok">4. 프로젝트 에러가 발생하는 경우(프로젝트 아이콘에 빨간색 x 표시), 프로젝트 우클릭 후 Maven -&gt; Update Project 선택 후 OK</h3>
+<p>또는 아래 단축키
+	- 맥 : Option + f5
+	- 윈도우 : Alt + f5
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img4.png" alt="img4" />
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img5.png" alt="img5" /></p>
+
+<h2 id="user">User</h2>
+<h3 id="1-프로젝트-폴더-중-src-폴더에서-우클릭---new---other-선택">1. 프로젝트 폴더 중 <code class="highlighter-rouge">src</code> 폴더에서 <code class="highlighter-rouge">우클릭 -&gt; New -&gt; Other</code> 선택</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img6.png" alt="img6" /></p>
+
+<h3 id="2-class-선택-후-next">2. <code class="highlighter-rouge">Class</code> 선택 후 Next</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img7.png" alt="img7" /></p>
+
+<h3 id="3-package-명과-파일명-모두-본인이-원하는-데로-지으면-되는데-본인의-경우-toby-스프링-실습-내용을-동일하게-실행해보려-함">3. Package 명과 파일명 모두 본인이 원하는 데로 지으면 되는데, 본인의 경우 Toby 스프링 실습 내용을 동일하게 실행해보려 함</h3>
+<ul>
+  <li>Package : springbook.user.domain</li>
+  <li>Name : User
+위 내용을 채운 뒤, Finish
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img8.png" alt="img8" /></li>
+</ul>
+
+<h3 id="4-다음과-같이-파일이-생성됨">4. 다음과 같이 파일이 생성됨</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img9.png" alt="img9" /></p>
+
+<h3 id="5-사용자-정보-저장용-자바빈-user-클래스">5. 사용자 정보 저장용 자바빈 User 클래스</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">springbook.user.domain</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+	<span class="nc">String</span> <span class="n">id</span><span class="o">;</span>
+	<span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="nc">String</span> <span class="n">password</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="nc">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getPassword</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">password</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPassword</span><span class="o">(</span><span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>변수 설정 후, Source -&gt; Generate Getters and Setters 선택 후, Select All -&gt; OK 하면 get(), set() 함수들이 자동 생성됨</p>
+
+<h3 id="6-본인이-편한-db를-이용하여-user-테이블-만들기">6. 본인이 편한 DB를 이용하여 USER 테이블 만들기</h3>
+<ul>
+  <li>MySQL 설치
+    <ul>
+      <li><a href="https://devilzcough.github.io/dev/MySQL-Installation-&amp;-Remove_Mac-OS/">MySQL Installation &amp; Remove_Mac OS</a></li>
+      <li>[MySQl 사용하기] 편 보기</li>
+    </ul>
+  </li>
+  <li>MySQL에 User 테이블 만들기
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">create</span> <span class="k">table</span> <span class="n">users</span><span class="p">(</span>
+     <span class="n">id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+     <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>
+     <span class="n">password</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span>
+     <span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="user-dao">User Dao</h2>
+
+<ul>
+  <li><strong>DAO(Data Access Object)</strong> : DB를 사용해 데이터를 조회하거나 조작하는 기능을 전담하도록 만든 오브젝트</li>
+</ul>
+
+<h3 id="1-user-dao-클래스">1. User Dao 클래스</h3>
+<p>위에 User 클래스를 만든 것과 같이 UserDao 클래스를 만들기</p>
+
+<ul>
+  <li>Package : springbook.user.dao</li>
+  <li>Name : UserDao</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">springbook.user.dao</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.ResultSet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">springbook.user.domain.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserDao</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span><span class="o">,</span> <span class="nc">SQLException</span> <span class="o">{</span>
+		<span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
+		<span class="nc">Connection</span> <span class="n">c</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span>
+				<span class="s">"jdbc:mysql://localhost/[DB_name]"</span><span class="o">,</span> <span class="s">"[userID]"</span><span class="o">,</span> <span class="s">"[PASSWORD]"</span><span class="o">);</span>
+
+		<span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span>
+				<span class="s">"insert into users(id, name, password) values(?,?,?)"</span><span class="o">);</span>
+		<span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+		<span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+		<span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>
+
+		<span class="n">ps</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+
+		<span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="n">c</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">User</span> <span class="nf">get</span><span class="o">(</span><span class="nc">String</span> <span class="n">id</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span><span class="o">,</span> <span class="nc">SQLException</span> <span class="o">{</span>
+		<span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
+		<span class="nc">Connection</span> <span class="n">c</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span>
+				<span class="s">"jdbc:mysql://localhost/[DB_name]"</span><span class="o">,</span> <span class="s">"[userID]"</span><span class="o">,</span> <span class="s">"[PASSWORD]"</span><span class="o">);</span>
+
+		<span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="s">"select * from users where id = ?"</span><span class="o">);</span>
+		<span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+
+		<span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+		<span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+		<span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">();</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"id"</span><span class="o">));</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"name"</span><span class="o">));</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"password"</span><span class="o">));</span>
+
+		<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="n">c</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+		<span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-dao-테스트-코드">2. DAO 테스트 코드</h3>
+<p>본인은 위와 동일한 방법으로 테스트 코드 파일 생성</p>
+<ul>
+  <li>Package : springbook.user.test</li>
+  <li>Name : UserDaoTest</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">springbook.user.test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">springbook.user.dao.UserDao</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">springbook.user.domain.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserDaoTest</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span><span class="o">,</span> <span class="nc">SQLException</span> <span class="o">{</span>
+		<span class="nc">UserDao</span> <span class="n">dao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UserDao</span><span class="o">();</span>
+
+		<span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">();</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="s">"toby"</span><span class="o">);</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"토비"</span><span class="o">);</span>
+		<span class="n">user</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">"password"</span><span class="o">);</span>
+
+		<span class="n">dao</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">" 등록 성공"</span><span class="o">);</span>
+
+		<span class="nc">User</span> <span class="n">user2</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user2</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user2</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>
+
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user2</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">" 조회 성공"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>-&gt; 또 다시 테스트를 할 때는, 생성한 user 정보를 제거해주고 다시 하거나, 다른 id 를 넣어주어야 함.</p>
+
+<h3 id="3-db-driver-connector">3. DB Driver Connector</h3>
+<ul>
+  <li>
+    <p>Download : <a href="https://dev.mysql.com/downloads/">MySQL :: MySQL Community Downloads</a>
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img10.png" alt="img10" />
+-&gt; Connector/J 선택</p>
+  </li>
+  <li>
+    <p>본인 DB 버전에 맞는 Connector 선택 후, OS 선택은 Platform Independent 로 설정
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img11.png" alt="img11" /></p>
+  </li>
+  <li>
+    <p>ZIP 파일 다운로드
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img13.png" alt="img12" /></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">Project 우클릭 -&gt; Build Path -&gt; Configure Build Path…</code> 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img14.png" alt="img13" /></p>
+  </li>
+  <li>
+    <p>위 탭에서 Libraries 선택 후, <code class="highlighter-rouge">Add External JARs</code> 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img15.png" alt="img14" /></p>
+  </li>
+  <li>
+    <p>위에서 다운로드 받은 jar 파일 선택 후 Open
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img16.png" alt="img15" />
+-&gt; 선택 후 Apply</p>
+  </li>
+</ul>
+
+<h3 id="4-실행-시-발생-에러">4. 실행 시 발생 에러</h3>
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1/img16.png" alt="img16" /></p>
+<ul>
+  <li>
+    <p>‘com.mysql.jdbc.Driver’. This is deprecated. The new driver class is ‘com.mysql.cj.jdbc.Driver’
+-&gt; <code class="highlighter-rouge">com.mysql.jdbc.Driver</code> 를 <code class="highlighter-rouge">com.mysql.cj.jdbc.Driver</code> 로 변경</p>
+  </li>
+  <li>
+    <p>Access denied for user ‘[userID]’@‘localhost’ to database ‘[DB_name]’
+MySQL 실행 후, 다음 쿼리 실행
+-&gt; GRANT ALL PRIVILEGES ON [DB_name].* TO ‘[userID]’@‘localhost’;
+-&gt; GRANT ALL PRIVILEGES ON [DB_name].* TO ‘[userID]’@‘%’;</p>
+  </li>
+  <li>
+    <p>The server time zone value ‘KST’ is unrecognized or represents more than one time zone.
+-&gt; MySQL 의 timezone 설정이 안되어있는 문제</p>
+    <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="nf">vi</span><span class="w"> </span><span class="nx">/usr/local/etc/my.cnf</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>해당 파일의 [mysqld] 섹션에 아래 내용 추가하기</p>
+<div class="language-vim highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default<span class="p">-</span>time<span class="p">-</span>zone<span class="p">=</span><span class="s1">'+9:00'</span>
+</code></pre></div></div>
+
+<p>-&gt; MySQL 재 접속 후, 아래와 같이 뜨면 완료</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">time_zone</span><span class="p">,</span> <span class="o">@@</span><span class="k">session</span><span class="p">.</span><span class="n">time_zone</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">--------------------+---------------------+</span>
+<span class="o">|</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">time_zone</span> <span class="o">|</span> <span class="o">@@</span><span class="k">session</span><span class="p">.</span><span class="n">time_zone</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+---------------------+</span>
+<span class="o">|</span> <span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>             <span class="o">|</span> <span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>              <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="5-test-코드-실행-결과">5. Test 코드 실행 결과</h3>
+<p><code class="highlighter-rouge">우클릭 -&gt; Run as -&gt; Java Application</code></p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">toby</span><span class="w"> </span><span class="err">등록</span><span class="w"> </span><span class="err">성공</span><span class="w">
+</span><span class="err">토비</span><span class="w">
+</span><span class="nf">password</span><span class="w">
+</span><span class="nf">toby</span><span class="w"> </span><span class="err">조회</span><span class="w"> </span><span class="err">성공</span><span class="w">
+</span></code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#development" class="page__taxonomy-item" rel="tag">Development</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#eclipse" class="page__taxonomy-item" rel="tag">Eclipse</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#spring" class="page__taxonomy-item" rel="tag">Spring</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#toby" class="page__taxonomy-item" rel="tag">Toby</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#dev" class="page__taxonomy-item" rel="tag">dev</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-06-01T00:00:00+09:00">June 1, 2020</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=1.+%5B%ED%86%A0%EB%B9%84%EC%9D%98+%EC%8A%A4%ED%94%84%EB%A7%81%5D+1.1+%EC%B4%88%EB%82%9C%EA%B0%90+DAO%20http%3A%2F%2Flocalhost%3A4000%2Fdev%2F1.-%25ED%2586%25A0%25EB%25B9%2584%25EC%259D%2598-%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-1.1-%25EC%25B4%2588%25EB%2582%259C%25EA%25B0%2590-DAO%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdev%2F1.-%25ED%2586%25A0%25EB%25B9%2584%25EC%259D%2598-%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-1.1-%25EC%25B4%2588%25EB%2582%259C%25EA%25B0%2590-DAO%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdev%2F1.-%25ED%2586%25A0%25EB%25B9%2584%25EC%259D%2598-%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-1.1-%25EC%25B4%2588%25EB%2582%259C%25EA%25B0%2590-DAO%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/dev/Java-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD+eclipse/" class="pagination--pager" title="Java 개발 환경 + eclipse
+">Previous</a>
+    
+    
+      <a href="/dev/Spring-Environment-_eclipse/" class="pagination--pager" title="Spring Environment [eclipse]
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/4.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.4-%EC%A0%9C%EC%96%B4%EC%9D%98-%EC%97%AD%EC%A0%84(IoC)/" rel="permalink"><ol>
+  <li>[토비의 스프링] 1.4 제어의 역전(IoC)</li>
+</ol>
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 14 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">토비의 스프링 책의 실습 및 정리
+
+  실습 내용 : 1.4 제어의 역전(IoC)
+  실습 환경 : Eclipse / Mac OS
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-2/" rel="permalink">[Spring 블로그 만들기] 2. DB 설정 Part 2
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 13 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.2 :: 훈잇 블로그
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-1/" rel="permalink">[Spring 블로그 만들기] 2. DB 설정 Part 1
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 08 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1.-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%84%A4%EC%A0%95/" rel="permalink">[Spring 블로그 만들기] 1. 프로젝트 생성 및 설정
+</a>
+      
+    </h2>
+    <!--
+      comments:
+        아카이브 싱글 페이지 각 포스트 제목 하단에 Updated 시간 표기
+        기존에는 read_time이 표기됨
+    
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minute read
+
+</p>
+    
+    -->
+    
+    <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 08 2020</p>
+    
+
+    <p class="archive__item-excerpt" itemprop="description">[참고] Spring 블로그 만들기 - 1. 프로젝트 생성 및 character encoding setting :: 훈잇 블로그
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/devilzCough" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Jiniz. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

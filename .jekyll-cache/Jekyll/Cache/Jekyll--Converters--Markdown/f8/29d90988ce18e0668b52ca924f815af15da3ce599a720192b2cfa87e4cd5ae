@@ -1,0 +1,122 @@
+I"E<ul>
+  <li>참고: <a href="https://whitepaek.tistory.com/16">macOS MySQL 설치 및 설정 사용법</a></li>
+</ul>
+
+<p><strong>Home-brew</strong>  이용하기
+[Homebrew 설치 및 사용] 편 참고</p>
+
+<ol>
+  <li>터미널 열고 다음 명령어 실행
+    <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">brew</span><span class="w"> </span><span class="nx">update</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">brew</span><span class="w"> </span><span class="nx">search</span><span class="w"> </span><span class="nx">mysql</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">brew search mysql</code> 명령어를 이용해 자신이 설치할 MySQL 명칭 확인하기
+Ex. mysql@5.5 -&gt; MySQL version 5.5</p>
+  </li>
+  <li>MySQL 설치
+    <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 최신 버전 설치 시,</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">brew</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="nx">mysql</span><span class="w">
+</span><span class="c"># 특정 버전 설치 시,</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">brew</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="nx">mysql</span><span class="err">@</span><span class="nx">5.5</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>설치 완료 후, <code class="highlighter-rouge">brew list</code> 를 통해 설치된 목록을 확인할 수 있음</p>
+  </li>
+  <li>MySQL 설정
+    <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># MySQL 서버 실행</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">mysql.server</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>만약, 네트워크 연결 허용여부와 관련된 알림창이 뜬다면 ‘허용’을 누르기</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">mysql_secure_instrallation</span><span class="w">
+</span></code></pre></div></div>
+<p>-&gt; 해당 명령어 실행 시 아래와 같은 질문이 나옴. 원하는 답변을 선택하면 되는데, 표시한 부분이 본인이 설정한 옵션.</p>
+
+<ul>
+  <li>Would you like to setup VALIDATE PASSWORD component?
+    <ul>
+      <li>Yes - 복잡한 비밀번호 설정</li>
+      <li>::No - 쉬운 비밀번호 설정::
+  -&gt; 선택 후, 사용할 비밀번호 입력하기</li>
+    </ul>
+  </li>
+  <li>Remove anonymous users?
+    <ul>
+      <li>::Yes - 접속하는 경우 “mysql -uroot” 처럼 -u 옵션 필요::</li>
+      <li>No - 접속하는 경우 “mysql” 처럼 -u 옵션 불필요</li>
+    </ul>
+  </li>
+  <li>Disallow root login remotely?
+    <ul>
+      <li>::Yes - 원격접속 불가능::</li>
+      <li>No - 원격 접속 가능</li>
+    </ul>
+  </li>
+  <li>Remove test database and access to it?
+    <ul>
+      <li>::Yes - Test 데이터베이스 제거::</li>
+      <li>No - Test 데이터베이스 유지</li>
+    </ul>
+  </li>
+  <li>Reload privilege tables now? (무조건 Yes)
+    <ul>
+      <li>::Yes - 변경된 권한을 테이블에 적용시킨다::</li>
+      <li>No - 적용시키지 않는다</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>MySQL 접속</li>
+</ol>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">mysql</span><span class="w"> </span><span class="nt">-uroot</span><span class="w"> </span><span class="nt">-p</span><span class="w">
+</span><span class="nf">Enter</span><span class="w"> </span><span class="nx">password:</span><span class="w"> </span><span class="p">[</span><span class="err">위에</span><span class="w"> </span><span class="err">설정한</span><span class="w"> </span><span class="err">패스워드</span><span class="w"> </span><span class="err">입력하기</span><span class="p">]</span><span class="w">
+
+</span><span class="c"># 정상적으로 로그인 된 경우</span><span class="w">
+</span><span class="nf">mysql</span><span class="err">&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="n">status</span><span class="p">;</span>
+</code></pre></div></div>
+<p>-&gt; 입력 후 characterset 설정이 모두 utf8 인지 확인하기
+(utf8이 아니라면 설정을 바꿔주어야 함)
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200603/img1.png" alt="img1" /></p>
+
+<ol>
+  <li>MySQL 종료</li>
+</ol>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">아래</span> <span class="err">명령어</span> <span class="err">모두</span> <span class="n">mysql</span><span class="o">&gt;</span> <span class="err">쉘에서</span> <span class="err">로그아웃하는</span> <span class="err">명령어</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="n">exit</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="n">quit</span>
+</code></pre></div></div>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># MySQL 서버 종료 명령어</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">mysql.server</span><span class="w"> </span><span class="nx">stop</span><span class="w">
+</span></code></pre></div></div>
+
+<ol>
+  <li>MySQL 삭제 방법</li>
+</ol>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nf">sudo</span><span class="w"> </span><span class="nx">rm</span><span class="w"> </span><span class="nt">-rf</span><span class="w"> </span><span class="nx">/usr/local/var/mysql</span><span class="w">
+</span><span class="nf">Password:</span><span class="w"> </span><span class="p">[</span><span class="err">본인의</span><span class="w"> </span><span class="err">맥</span><span class="w"> </span><span class="err">비밀번호</span><span class="w"> </span><span class="err">입력하기</span><span class="p">]</span><span class="w">
+
+</span><span class="err">$</span><span class="w"> </span><span class="nf">sudo</span><span class="w"> </span><span class="nx">rm</span><span class="w"> </span><span class="nt">-rf</span><span class="w"> </span><span class="nx">/usr/local/bin/mysql</span><span class="o">*</span><span class="w">
+</span><span class="err">$</span><span class="w"> </span><span class="nf">sudo</span><span class="w"> </span><span class="nx">rm</span><span class="w"> </span><span class="nt">-rf</span><span class="w"> </span><span class="nx">/usr/local/Cellar/mysql</span><span class="w">
+</span></code></pre></div></div>
+<p>-&gt; 명령어 실행 완료 후, PC 를 재부팅하면 완전 삭제가 완료됨</p>
+
+<ol>
+  <li>MySQL Workbench 설치
+UI 툴을 사용하고 싶다면 Workbench 를 설치하여 사용 가능
+아래 링크에서 본인 PC 운영체제에 해당하는 설치 파일 다운로드 하기</li>
+</ol>
+
+<p>다운로드 : <a href="https://dev.mysql.com/downloads/workbench/">MySQL :: Download MySQL Workbench</a></p>
+:ET

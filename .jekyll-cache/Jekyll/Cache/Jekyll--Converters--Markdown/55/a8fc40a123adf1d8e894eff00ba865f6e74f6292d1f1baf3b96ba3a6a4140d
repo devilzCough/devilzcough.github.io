@@ -1,0 +1,93 @@
+I"h<p><strong>백준 문제 : 11718, 11719</strong></p>
+
+<p>C++ 에서 공백이 포함된 문자열을 입력받기 위해, string 클래스의 getline 함수를 이용해 문제를 해결할 수 있다.</p>
+
+<p><code class="highlighter-rouge">getline(입력스트림,  문자열을 저장할 string 객체,  구분자)</code></p>
+
+<p>이 때, 구분자라는 건, 이 문자에 도달했을 때 추출이 중단되는 문자를 의미한다.
+‘\n’ 가 default 값인 것 같다.</p>
+
+<p><strong>[참고]</strong>
+getline  함수가 iostream 에도 있는데, 이 함수도 유사하게 동작하지만 인자값이 조금 다르다.</p>
+
+<p><code class="highlighter-rouge">getline(char 배열, 최대 문자수, 구분자)</code></p>
+
+<p>이 때, string 클래스의 getline과 다르게 문자열을 저장할 때, char 배열을 사용한다.</p>
+
+<p>Ex.</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+<span class="n">getline</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="err">‘\</span><span class="n">n</span><span class="err">’</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a href="https://www.acmicpc.net/problem/11718">11718번: 그대로 출력하기</a></p>
+
+<p>11718 의 경우는 마지막에 아무것도 입력되지 않는 경우가 종료 조건이었다.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 11718</span>
+<span class="cp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="o">==</span><span class="s">""</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br />
+C 로 문제를 해결하는 경우, 다음과 같이 EOF(-1) 를 체크하거나 정규식을 이용해 문제를 풀기도 하더라</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">c</span><span class="err">”</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">)</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">c</span><span class="err">”</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">101</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// \n 이 아닌(^) 모든 문자를 입력받고, 마지막은 \n으로 끝나야 함</span>
+    <span class="c1">// 위 패턴이 맞는 경우 scanf가 1을 반환</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="p">[</span><span class="o">^</span><span class="err">\</span><span class="n">n</span><span class="p">]</span><span class="err">\</span><span class="n">n</span><span class="err">”</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">s</span><span class="err">\</span><span class="n">n</span><span class="err">”</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br />
+<a href="https://www.acmicpc.net/problem/11719">11719번: 그대로 출력하기 2</a></p>
+
+<p>11719 의 경우는 앞 뒤에 공백이 포함될 수 도 있고 혹은 아무것도 입력되지 않는 경우도 입력으로 포함되기 때문에 EOF 를 처리해야 한다.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>위의 C 풀이 중, EOF 를 체크하는 풀이도 사용가능하다.</p>
+:ET

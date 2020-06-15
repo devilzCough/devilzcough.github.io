@@ -1,0 +1,7 @@
+I"[<ul class="toc__menu">
+  <li><a href="#userdao-의-관심-사항">UserDao 의 관심 사항</a></li>
+  <li><a href="#중복-코드의-메소드-추출">중복 코드의 메소드 추출</a></li>
+  <li><a href="#db-커넥션의-독립">DB 커넥션의 독립</a></li>
+  <li><a href="#참고-디자인-패턴">참고 디자인 패턴</a></li>
+</ul>
+:ET
