@@ -40,10 +40,10 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home 
 ```powershell
 $ vim Test.java
 
-// 아래 내용
+# 아래 내용
 public class Test { public static void main(String[] args) { System.out.println("Hello Java!"); } }
 
-// compile
+# compile
 $ javac [filename].java
 $ java [filename]
 ```
