@@ -48,26 +48,27 @@ $ mysql_secure_instrallation
 -> 해당 명령어 실행 시 아래와 같은 질문이 나옴. 원하는 답변을 선택하면 되는데, 표시한 부분이 본인이 설정한 옵션.
 
 - Would you like to setup VALIDATE PASSWORD component?
-Yes - 복잡한 비밀번호 설정
-::No - 쉬운 비밀번호 설정::
--> 선택 후, 사용할 비밀번호 입력하기
+    - Yes - 복잡한 비밀번호 설정
+    - ::No - 쉬운 비밀번호 설정::
+    -> 선택 후, 사용할 비밀번호 입력하기
 - Remove anonymous users?
-::Yes - 접속하는 경우 “mysql -uroot” 처럼 -u 옵션 필요::
-No - 접속하는 경우 “mysql” 처럼 -u 옵션 불필요
+    - ::Yes - 접속하는 경우 “mysql -uroot” 처럼 -u 옵션 필요::
+    - No - 접속하는 경우 “mysql” 처럼 -u 옵션 불필요
 
 - Disallow root login remotely?
-::Yes - 원격접속 불가능::
-No - 원격 접속 가능
+    - ::Yes - 원격접속 불가능::
+    - No - 원격 접속 가능
 
 - Remove test database and access to it?
-::Yes - Test 데이터베이스 제거::
-No - Test 데이터베이스 유지
+    - ::Yes - Test 데이터베이스 제거::
+    - No - Test 데이터베이스 유지
 
 - Reload privilege tables now? (무조건 Yes)
-::Yes - 변경된 권한을 테이블에 적용시킨다::
-No - 적용시키지 않는다
+    - ::Yes - 변경된 권한을 테이블에 적용시킨다::
+    - No - 적용시키지 않는다
 
 5. MySQL 접속
+
 ```powershell
 $ mysql -uroot -p
 Enter password: [위에 설정한 패스워드 입력하기]
@@ -84,6 +85,7 @@ mysql> status;
 ![img1](https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200603/img1.png)
 
 6. MySQL 종료
+
 ```sql
 # 아래 명령어 모두 mysql> 쉘에서 로그아웃하는 명령어
 mysql> exit
