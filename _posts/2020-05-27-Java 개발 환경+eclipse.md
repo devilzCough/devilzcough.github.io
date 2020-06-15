@@ -1,3 +1,17 @@
+---
+title : "Java 개발 환경 + eclipse"
+category :
+    - dev
+tag :
+    - Development
+    - Java
+    - Spring
+    - Eclipse
+comment : true
+author_profile : true
+toc : true
+---
+
 ## Java 개발 환경 + eclipse
 1. Jdk 설치
 [Java SE - Downloads | Oracle Technology Network | Oracle](https://www.oracle.com/java/technologies/javase-downloads.html)

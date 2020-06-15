@@ -1,4 +1,18 @@
-## Spring Environment _eclipse
+---
+title : "Spring Environment [eclipse]"
+category :
+    - dev
+tag :
+    - Development
+    - Java
+    - Spring
+    - Eclipse
+comment : true
+author_profile : true
+toc : true
+---
+
+## Spring Environment [eclipse]
 
 **스프링 개발을 위해 필요한 기본 환경 세팅**
 1. Jdk
@@ -13,7 +27,7 @@
 
 ** 아 그리고 참고로, 이클립스를 오래전에 설치한 분들은 삭제 후 새로 받아서 설치하는 걸 추천.. 구버전에는 Marketplace에 STS 가 안나와서 한참 헤맸다.
 
-그 다음, `Help -> Eclipse Marketplace` 
+그 다음, `Help -> Eclipse Marketplace`
 
 `Spring STS` 로 검색하면 다음과 같이 뜸
 ![](Spring%20Environment%20_eclipse/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202020-06-01%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%203.42.00.png)
