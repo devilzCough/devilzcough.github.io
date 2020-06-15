@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Jiniz"
-  avatar           : "https://github.com/devilzCough/devilzCough.github.io/blob/master/_posts/img/avatar/cat.jpeg?raw=true"
+  avatar           : "./img/avatar/cat.jpeg"
   bio              : "Master's degree. Computer Science[Dev/ML]"
   location         : "KR"
   # email            : "jiniz.ll@kakao.com"
