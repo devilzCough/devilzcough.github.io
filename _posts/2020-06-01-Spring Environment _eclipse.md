@@ -36,5 +36,3 @@ toc : true
 그래서 둘 다 설치했다
 ![img2](./img/200601/img2.png)
 설치되는 내역은 다음과 같다. 그냥 spring 개발이나 Spring boot 는 **Spring tools 4** 설치만으로도 가능한 것 같음
-
-#development/spring
