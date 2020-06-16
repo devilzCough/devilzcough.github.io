@@ -1,0 +1,23 @@
+I"�<ul class="toc__menu">
+  <li><a href="#android">Android</a>
+    <ul>
+      <li><a href="#1-인터넷-사용권한-추가하기">1. 인터넷 사용권한 추가하기</a></li>
+      <li><a href="#2-라이브러리-추가하기">2. 라이브러리 추가하기</a></li>
+      <li><a href="#3-data">3. Data</a></li>
+      <li><a href="#4-인터페이스-정의">4. 인터페이스 정의</a></li>
+      <li><a href="#5-retrofit-client-빌더">5. Retrofit Client 빌더</a></li>
+      <li><a href="#6-main">6. Main</a></li>
+    </ul>
+  </li>
+  <li><a href="#spring-egovframework">Spring [egovframework]</a>
+    <ul>
+      <li><a href="#1-프로젝트-만들기">1. 프로젝트 만들기</a></li>
+      <li><a href="#2-controller-생성">2. Controller 생성</a></li>
+      <li><a href="#3-기본-환경-설정">3. 기본 환경 설정</a></li>
+      <li><a href="#4-테스트">4. 테스트</a></li>
+      <li><a href="#5-데이터를-받기-위한-설정">5. 데이터를 받기 위한 설정</a></li>
+      <li><a href="#6-android-로-부터-오는-데이터-처리-코드-및-테스트">6. Android 로 부터 오는 데이터 처리 코드 및 테스트</a></li>
+    </ul>
+  </li>
+</ul>
+:ET

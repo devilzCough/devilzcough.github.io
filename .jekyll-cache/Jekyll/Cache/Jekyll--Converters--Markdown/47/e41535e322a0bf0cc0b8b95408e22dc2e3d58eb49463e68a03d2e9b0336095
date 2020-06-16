@@ -1,0 +1,381 @@
+I"!�<h2 id="android">Android</h2>
+
+<p><strong>Retrofit</strong> 을 사용하기 위한 설정
+참고. <a href="https://square.github.io/retrofit/">Retrofit</a></p>
+
+<p><strong>Retrofit 이란?</strong>
+Square 사에서 제공하는 오픈소스 라이브러리
+REST API 를 안드로이드에서 쉽게 이용할 수 있게 해주는 도구</p>
+
+<h3 id="1-인터넷-사용권한-추가하기">1. 인터넷 사용권한 추가하기</h3>
+<p><strong>AndroidManifest.xml</strong></p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="2-라이브러리-추가하기">2. 라이브러리 추가하기</h3>
+<p><strong>Build.gradle(app)</strong></p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+implementation 'com.google.code.gson:gson:2.8.5'
+implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+</code></pre></div></div>
+
+<h3 id="3-data">3. Data</h3>
+<p>아래는 예시 데이터 클래스.
+아래 형식으로 전송할 데이터 클래스 만들기</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+
+    <span class="nd">@SerializedName</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span>
+    <span class="nc">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@SerializedName</span><span class="o">(</span><span class="s">"password"</span><span class="o">)</span>
+    <span class="nc">String</span> <span class="n">password</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getPassword</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">password</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="nc">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPassword</span><span class="o">(</span><span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"User{"</span> <span class="o">+</span>
+                <span class="s">"id='"</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                <span class="s">", password='"</span> <span class="o">+</span> <span class="n">password</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                <span class="sc">'}'</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="4-인터페이스-정의">4. 인터페이스 정의</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">APIInterface</span> <span class="o">{</span>
+    <span class="nd">@POST</span><span class="o">(</span><span class="s">"user"</span><span class="o">)</span>
+    <span class="nc">Call</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">sendUser</span><span class="o">(</span><span class="nd">@Body</span> <span class="nc">User</span> <span class="n">user</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>-&gt; Call&lt;[응답 받을 데이터 형식]&gt; [함수명] (@Body [데이터 객체])</p>
+
+<h3 id="5-retrofit-client-빌더">5. Retrofit Client 빌더</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">APIClient</span> <span class="o">{</span>
+
+    <span class="kd">static</span> <span class="nc">Retrofit</span> <span class="nf">getClient</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Retrofit</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">baseUrl</span><span class="o">(</span><span class="s">"http://[IP]:[PORT]/[ProjectName]/"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addConverterFactory</span><span class="o">(</span><span class="nc">GsonConverterFactory</span><span class="o">.</span><span class="na">create</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">APIInterface</span> <span class="nf">serverPost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">getClient</span><span class="o">().</span><span class="na">create</span><span class="o">(</span><span class="nc">APIInterface</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="6-main">6. Main</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
+
+    <span class="c1">// Example</span>
+    <span class="nc">EditText</span> <span class="n">txtId</span><span class="o">,</span> <span class="n">txtPassword</span><span class="o">;</span>
+    <span class="nc">Button</span> <span class="n">sendBtn</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+
+        <span class="n">txtId</span> <span class="o">=</span> <span class="o">(</span><span class="nc">EditText</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">txtId</span><span class="o">);</span>
+        <span class="n">txtPassword</span> <span class="o">=</span> <span class="o">(</span><span class="nc">EditText</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">txtPassword</span><span class="o">);</span>
+
+        <span class="n">sendBtn</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btnSend</span><span class="o">);</span>
+        <span class="n">sendBtn</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span>
+                        <span class="n">txtId</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">(),</span>
+                        <span class="n">txtPassword</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">()</span>
+                <span class="o">);</span>
+                <span class="n">sendNetworkRequest</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+	  <span class="c1">// 데이터 전송 함수</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sendNetworkRequest</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+
+			<span class="c1">// [Client_ClassName].[Client_function].[interface_var]</span>
+        <span class="nc">Call</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">call</span> <span class="o">=</span> <span class="nc">APIClient</span><span class="o">.</span><span class="na">serverPost</span><span class="o">().</span><span class="na">sendUser</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+        <span class="n">call</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="k">new</span> <span class="nc">Callback</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+
+			  <span class="c1">// 응답 성공 시, 처리</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="nc">Call</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">call</span><span class="o">,</span> <span class="nc">Response</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span> <span class="s">"서버에 값을 전달했습니다 : "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">(),</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+			 <span class="c1">// 응답 실패 시, 처리</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onFailure</span><span class="o">(</span><span class="nc">Call</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">call</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span> <span class="s">"Something went wrong :("</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>sendNetworkRequest() -&gt; Retrofit 처리 부분
+Enqueue 는 비동기 방식</p>
+
+<h2 id="spring-egovframework">Spring [egovframework]</h2>
+
+<h3 id="1-프로젝트-만들기">1. 프로젝트 만들기</h3>
+<p><code class="highlighter-rouge">File -&gt; New -&gt; eGovFrame Web Project</code>
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img1.png" alt="img1" /></p>
+
+<p>Project name 과 Group Id 채워준 후, Next
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img2.png" alt="img2" /></p>
+
+<p><code class="highlighter-rouge">Generate Example</code> 체크 후, Finish
+예제 코드를 함께 생성하는 것인데, 체크를 안하면 직접 만들어야 하는게 많아서 처음 접하는 경우는 특히나 체크!
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img3.png" alt="img3" /></p>
+
+<p>전자정부 프레임워크를 처음 사용한다면
+<code class="highlighter-rouge">Window -&gt; Perspective -&gt; Open Perspective -&gt; Other…</code> 에 들어간 후, <code class="highlighter-rouge">eGovFrame</code> 선택하기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img4.png" alt="img4" />
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img5.png" alt="img5" /></p>
+
+<h3 id="2-controller-생성">2. Controller 생성</h3>
+
+<p>위에서 Generate Example 을 통해 생성한 것들은 샘플 코드이므로, 본인이 사용할 패키지를 생성해주기
+<code class="highlighter-rouge">src 폴더 위에서 우클릭 -&gt; New -&gt; Class</code> 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img6.png" alt="img6" /></p>
+
+<p>사용할 Controller 클래스 명과 패키지 명을 채워주고 Finish
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img7.png" alt="img7" /></p>
+
+<p>생성하면  <code class="highlighter-rouge">src/main/java</code>  밑에 생성한 패키지 아래 Controller 파일이 생성된 것을 확인 할 수 있음
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img8.png" alt="img8" />
+아래 egovframework 로 시작하는 패키지들은 모두 예제 파일로 생성된 것들이다</p>
+
+<h3 id="3-기본-환경-설정">3. 기본 환경 설정</h3>
+<ul>
+  <li><strong>context-common.xml</strong>
+<code class="highlighter-rouge">src/main/resources</code> 아래 <code class="highlighter-rouge">egovframework/spring/</code>  에 context-* 파일들이 있음
+여기서 먼저 <code class="highlighter-rouge">context-common.xml</code> 파일을 열어 base package 를 변경해주기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img9.png" alt="img9" /></li>
+</ul>
+
+<p>본인이 설정한 패키지 명으로 변경해주면 된다</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!--변경 전에는 egovframework 로 되어있었음--&gt;</span>
+<span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.android2spring"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;context:exclude-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Controller"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/context:component-scan&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>dispatcher-servlet.xml</strong>
+그리고 <code class="highlighter-rouge">src/main/webapp/WEB-INF/config/egovframework/springmvc/</code> 아래에 <code class="highlighter-rouge">dispatcher-servlet.xml</code> 파일이 있는데 여기도 위 파일과 마찬가지로 base-package 명을 변경해준다
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img10.png" alt="img10" /></li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.android2spring"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;context:include-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Controller"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;context:exclude-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Service"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;context:exclude-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Repository"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/context:component-scan&gt;</span>
+</code></pre></div></div>
+
+<p>그리고 파일 내에 아래 코드 추가해주기</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;mvc:annotation-driven</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p>주석 아래 내용을 해당 위치에 추가해주기
+Json 으로 데이터를 받을 때 <code class="highlighter-rouge">Content type 'application/json;charset=UTF-8' not supported</code> 에러 발생 시, 필요</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"webBindingInitializer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.example.cmmn.web.EgovBindingInitializer"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="c">&lt;!-- @ResponseBody application/json 으로 변경 --&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"messageConverters"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;list&gt;</span>
+                <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/list&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>web.xml</strong>
+<code class="highlighter-rouge">src/main/webapp/WEB-INF/</code> 아래에 web.xml 파일에 servlet 파일 설정이 있는데
+Servlet 이름은 원하는 데로 쓰더라도 [servlet-name]-servlet.xml 이라는 파일을 생성해야 한다. 기본적으로 action 이라는 servlet 이름이 설정되어있는데 테스트 시 계속 경고 같은게 떠서 일단 dispatcher 로 변경해두었다. (dispatcher-servlet.xml 파일은 있으므로)</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;servlet&gt;</span>
+		<span class="nt">&lt;servlet-name&gt;</span>dispatcher<span class="nt">&lt;/servlet-name&gt;</span>
+		<span class="nt">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>
+		<span class="nt">&lt;init-param&gt;</span>
+			<span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+			<span class="nt">&lt;param-value&gt;</span>/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml<span class="nt">&lt;/param-value&gt;</span>
+		<span class="nt">&lt;/init-param&gt;</span>
+		<span class="nt">&lt;load-on-startup&gt;</span>1<span class="nt">&lt;/load-on-startup&gt;</span>
+	<span class="nt">&lt;/servlet&gt;</span>
+
+	<span class="nt">&lt;servlet-mapping&gt;</span>
+		<span class="nt">&lt;servlet-name&gt;</span> dispatcher <span class="nt">&lt;/servlet-name&gt;</span>
+		<span class="nt">&lt;url-pattern&gt;</span>/<span class="nt">&lt;/url-pattern&gt;</span>
+	<span class="nt">&lt;/servlet-mapping&gt;</span>
+</code></pre></div></div>
+
+<p>그리고 <code class="highlighter-rouge">&lt;url-pattern&gt;</code> 은 / 로 변경하였다.
+기본적으로 <code class="highlighter-rouge">*.do</code> 로 되어있는데 .do 형식을 처리하겠다는 의미이다. 다른 패턴을 사용해도 되지만 모든 형식을 처리하기 위해 <code class="highlighter-rouge">/</code> 로 변경해두었다.
+(개인 적으로는 해당 파일에 있는 url-pattern 은 모두 / 로 변경함)</p>
+
+<h3 id="4-테스트">4. 테스트</h3>
+<p><code class="highlighter-rouge">src/main/webapp/WEB-INF/</code> 아래에 있는 <code class="highlighter-rouge">index.jsp</code> 파일에 기존에 써있는 것을 지우고 간단한 코드를 작성했다</p>
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%@ page </span><span class="na">language=</span><span class="s">"java"</span><span class="na"> contentType=</span><span class="s">"text/html; charset=utf-8"</span><span class="na"> pageEncoding=</span><span class="s">"utf-8"</span><span class="nt">%&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"Content-Type"</span> <span class="na">content=</span><span class="s">"text/html; charset=UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Hello!<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;p&gt;</span>Hello!<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>프로젝트 명 위에 <code class="highlighter-rouge">우클릭 -&gt; Run As -&gt; Run on Server</code> 선택 후,  실행했을 때 다
+음과 같이 뜨면 우선 테스트 성공
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img11.png" alt="img11" /></p>
+
+<h3 id="5-데이터를-받기-위한-설정">5. 데이터를 받기 위한 설정</h3>
+<p><code class="highlighter-rouge">pom.xml</code> 에 json 데이터를 받기위한 dependency 를 추가해야 한다</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>com.fasterxml.jackson.core<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>2.9.3<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+		<span class="nt">&lt;dependency&gt;</span>
+		    <span class="nt">&lt;groupId&gt;</span>org.codehaus.jackson<span class="nt">&lt;/groupId&gt;</span>
+		    <span class="nt">&lt;artifactId&gt;</span>jackson-mapper-asl<span class="nt">&lt;/artifactId&gt;</span>
+		    <span class="nt">&lt;version&gt;</span>1.9.13<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>slf4j 를 이용해 logging 을 할 것이라면 아래 dependency 를 추가하고,  properties 에 <code class="highlighter-rouge">&lt;org.slf4j-version&gt;1.7.21&lt;/org.slf4j-version&gt;</code> 도 추가한다</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;properties&gt;</span>
+	    <span class="nt">&lt;spring.maven.artifact.version&gt;</span>4.3.22.RELEASE<span class="nt">&lt;/spring.maven.artifact.version&gt;</span>
+		<span class="nt">&lt;egovframework.rte.version&gt;</span>3.9.0<span class="nt">&lt;/egovframework.rte.version&gt;</span>
+		<span class="nt">&lt;org.slf4j-version&gt;</span>1.7.21<span class="nt">&lt;/org.slf4j-version&gt;</span>
+	<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div></div>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		<span class="nt">&lt;dependency&gt;</span>
+			<span class="nt">&lt;groupId&gt;</span>ch.qos.logback<span class="nt">&lt;/groupId&gt;</span>
+			<span class="nt">&lt;artifactId&gt;</span>logback-classic<span class="nt">&lt;/artifactId&gt;</span>
+			<span class="nt">&lt;version&gt;</span>1.1.7<span class="nt">&lt;/version&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+
+		<span class="nt">&lt;dependency&gt;</span>
+			<span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+			<span class="nt">&lt;artifactId&gt;</span>jcl-over-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+			<span class="nt">&lt;version&gt;</span>${org.slf4j-version}<span class="nt">&lt;/version&gt;</span>
+			<span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+		<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>그리고 <code class="highlighter-rouge">src/main/resources/egovframework/</code> 에 <code class="highlighter-rouge">logback.xml</code> 파일을 만든 후, 다음 내용을 채워준다</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.sqlonly"</span>			<span class="na">level=</span><span class="s">"DEBUG"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.sqltiming"</span>		<span class="na">level=</span><span class="s">"INFO"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.audit"</span>			<span class="na">level=</span><span class="s">"WARN"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.resultset"</span>		<span class="na">level=</span><span class="s">"ERROR"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.resultsettable"</span>	<span class="na">level=</span><span class="s">"ERROR"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"jdbc.connection"</span>		<span class="na">level=</span><span class="s">"INFO"</span><span class="nt">/&gt;</span>
+
+	<span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"CONSOLE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.ConsoleAppender"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;layout</span> <span class="na">class=</span><span class="s">"ch.qos.logback.classic.PatternLayout"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} [%thread] %-4level [%logger.%method:%line]- %msg%n
+			<span class="nt">&lt;/pattern&gt;</span>
+		<span class="nt">&lt;/layout&gt;</span>
+	<span class="nt">&lt;/appender&gt;</span>
+
+	<span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"LOGFILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.RollingFileAppender"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;file&gt;</span>/WEB-INF/logback.log<span class="nt">&lt;/file&gt;</span>
+		<span class="nt">&lt;rollingPolicy</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.TimeBaseRollingPolicy"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;fileNamePattern&gt;</span>logback.%d{yyyy-MM-dd}.log<span class="nt">&lt;/fileNamePattern&gt;</span>
+			<span class="nt">&lt;maxHistory&gt;</span>30<span class="nt">&lt;/maxHistory&gt;</span>
+		<span class="nt">&lt;/rollingPolicy&gt;</span>
+		<span class="nt">&lt;encoder&gt;</span>
+			<span class="nt">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} [%thread] %-4level [%logger.%method:%line]- %msg %n<span class="nt">&lt;/pattern&gt;</span>
+		<span class="nt">&lt;/encoder&gt;</span>
+	<span class="nt">&lt;/appender&gt;</span>
+
+	<span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"myweb"</span> <span class="na">additivity=</span><span class="s">"false"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">"INFO"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"LOGFILE"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"CONSOLE"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/logger&gt;</span>
+
+	<span class="nt">&lt;root&gt;</span>
+		<span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">"INFO"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"CONSOLE"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div></div>
+
+<h3 id="6-android-로-부터-오는-데이터-처리-코드-및-테스트">6. Android 로 부터 오는 데이터 처리 코드 및 테스트</h3>
+<p><strong>MainController.java</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"/"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainController</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">MainController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+	<span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"/user"</span><span class="o">,</span> <span class="n">produces</span><span class="o">=</span> <span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">TestPost</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">user</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">JsonProcessingException</span> <span class="o">{</span>
+
+		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+
+		<span class="c1">// android 에 보낼 메시지</span>
+		<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+		<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"ID"</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"id"</span><span class="o">));</span>
+		<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"PASSWORD"</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"password"</span><span class="o">));</span>
+		<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"result"</span><span class="o">,</span> <span class="s">"test OK"</span><span class="o">);</span>
+
+		<span class="nc">ObjectMapper</span> <span class="n">objMapper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ObjectMapper</span><span class="o">();</span>
+		<span class="kd">final</span> <span class="nc">String</span> <span class="n">json</span> <span class="o">=</span> <span class="n">objMapper</span><span class="o">.</span><span class="na">writeValueAsString</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+
+		<span class="k">return</span> <span class="k">new</span> <span class="nc">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="n">json</span><span class="o">,</span> <span class="nc">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>안드로이드 앱 및 서버 실행 후, 데이터를 보내면
+<code class="highlighter-rouge">{id=[send_id], password=[send_password]}</code> 와 같은 형식으로 로그가 찍히게 되고,</p>
+
+<p>안드로이드 화면에는 다음과 같이 응답 Toast 가 발생하게 된다
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/200612/img12.jpg" alt="img12" /></p>
+:ET

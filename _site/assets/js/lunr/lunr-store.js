@@ -19,7 +19,7 @@ var store = [{
         "tags": ["Development","Java","Spring","Eclipse"],
         "url": "http://localhost:4000/dev/Java-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD+eclipse/",
         "teaser":null},{
-        "title": "1. [토비의 스프링] 1.1 초난감 DAO",
+        "title": "[토비의 스프링] 1.1 초난감 DAO",
         "excerpt":"토비의 스프링 책을 실습해보기 위해 프로젝트 생성 실습 내용 : 1.1 초난감 DAO 실습 환경 : Eclipse / Mac OS Project 생성 1. 아래와 같이 File -&gt; New -&gt; Other 선택 2. Spring -&gt; Spring Legacy Project 선택 후, Next 3. 원하는 프로젝트 명 입력 및 Simple Spring Web Maven...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse","Toby"],
         "url": "http://localhost:4000/dev/1.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.1-%EC%B4%88%EB%82%9C%EA%B0%90-DAO/",
@@ -29,7 +29,7 @@ var store = [{
         "tags": ["Development","Java","Spring","Eclipse"],
         "url": "http://localhost:4000/dev/Spring-Environment-_eclipse/",
         "teaser":null},{
-        "title": "2. [토비의 스프링] 1.2 DAO의 분리",
+        "title": "[토비의 스프링] 1.2 DAO의 분리",
         "excerpt":"토비의 스프링 책의 실습 및 정리 실습 내용 : 1.2 DAO의 분리 실습 환경 : Eclipse / Mac OS 이전 실습 내용을 개선하는 작업을 진행 코드 변경이 일어날 때, 필요한 작업을 최소화하고, 변경한 내용이 문제를 일으키지 않도록 하기 위해 분리와 확장 을 고려하여 설계해야 함 -&gt; 관심이 같은 것 끼리...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse","Toby"],
         "url": "http://localhost:4000/dev/2.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.2-DAO%EC%9D%98-%EB%B6%84%EB%A6%AC/",
@@ -39,7 +39,7 @@ var store = [{
         "tags": ["Development","MySQL","MacOS"],
         "url": "http://localhost:4000/dev/MySQL-Installation-&-Remove_Mac-OS/",
         "teaser":null},{
-        "title": "3. [토비의 스프링] 1.3 DAO의 확장",
+        "title": "[토비의 스프링] 1.3 DAO의 확장",
         "excerpt":"토비의 스프링 책의 실습 및 정리 실습 내용 : 1.3 DAO의 확장 실습 환경 : Eclipse / Mac OS 이전까지 두 개의 관심사를 상하위 클래스로 분리시킴 데이터 액세스 로직을 어떻게 만들 것인가 DB 연결을 어떤 방법으로 할 것인가 -&gt; 이 두 개의 관심은 변환의 성격이 다름 이 때, 변화의 성격이...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse","Toby"],
         "url": "http://localhost:4000/dev/3.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.3-DAO%EC%9D%98-%ED%99%95%EC%9E%A5/",
@@ -54,12 +54,17 @@ var store = [{
         "tags": ["Development","Spring","Eclipse"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-1/",
         "teaser":null},{
+        "title": "Android 에서 Spring으로 데이터 전송",
+        "excerpt":"Android Retrofit 을 사용하기 위한 설정 참고. Retrofit Retrofit 이란? Square 사에서 제공하는 오픈소스 라이브러리 REST API 를 안드로이드에서 쉽게 이용할 수 있게 해주는 도구 1. 인터넷 사용권한 추가하기 AndroidManifest.xml &lt;uses-permission android:name=\"android.permission.INTERNET\"/&gt; 2. 라이브러리 추가하기 Build.gradle(app) implementation 'com.squareup.retrofit2:retrofit:2.3.0' implementation 'com.google.code.gson:gson:2.8.5' implementation 'com.squareup.retrofit2:converter-gson:2.1.0' 3. Data 아래는 예시 데이터 클래스. 아래 형식으로...","categories": ["dev"],
+        "tags": ["Development","Spring","Eclipse","eGovFramework"],
+        "url": "http://localhost:4000/dev/Android-%EC%97%90%EC%84%9C-Spring%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EC%86%A1/",
+        "teaser":null},{
         "title": "[Spring 블로그 만들기] 2. DB 설정 Part 2",
         "excerpt":"[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.2 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 DB : MySQL 8.0.19 Create Table create table posts( pid int auto_increment comment '일련번호' primary...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-2/",
         "teaser":null},{
-        "title": "4. [토비의 스프링] 1.4 제어의 역전(IoC)",
+        "title": "[토비의 스프링] 1.4 제어의 역전(IoC)",
         "excerpt":"토비의 스프링 책의 실습 및 정리 실습 내용 : 1.4 제어의 역전(IoC) 실습 환경 : Eclipse / Mac OS 오브젝트 팩토리 이전 초난감 DAO를 깔끔하게 리팩토링하는 과정에서 UserDaoTest 에 어떤 ConnectionMaker 구현 클래스를 사용할지 결정하는 기능이 포함되었다 UserDaoTest의 본래 목적은 UserDao의 기능이 잘 동작하는지 테스트하려는 것 -&gt; 분리! -&gt; UserDao와...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse","Toby"],
         "url": "http://localhost:4000/dev/4.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.4-%EC%A0%9C%EC%96%B4%EC%9D%98-%EC%97%AD%EC%A0%84(IoC)/",
