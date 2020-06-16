@@ -63,4 +63,19 @@ var store = [{
         "excerpt":"토비의 스프링 책의 실습 및 정리 실습 내용 : 1.4 제어의 역전(IoC) 실습 환경 : Eclipse / Mac OS 오브젝트 팩토리 이전 초난감 DAO를 깔끔하게 리팩토링하는 과정에서 UserDaoTest 에 어떤 ConnectionMaker 구현 클래스를 사용할지 결정하는 기능이 포함되었다 UserDaoTest의 본래 목적은 UserDao의 기능이 잘 동작하는지 테스트하려는 것 -&gt; 분리! -&gt; UserDao와...","categories": ["dev"],
         "tags": ["Development","Spring","Eclipse","Toby"],
         "url": "http://localhost:4000/dev/4.-%ED%86%A0%EB%B9%84%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-1.4-%EC%A0%9C%EC%96%B4%EC%9D%98-%EC%97%AD%EC%A0%84(IoC)/",
+        "teaser":null},{
+        "title": "Spring SQL 로그 출력하기",
+        "excerpt":"[참고] JAVA/Spring SQL 로그 출력하기 :: 훈잇 블로그 콘솔 창에 어떤 SQL이 어떻게 실행되는지 실행되는 SQL 문장이 출력되도록 설정하기 의존성 추가 pom.xml &lt;!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4 --&gt; &lt;dependency&gt; &lt;groupId&gt;org.bgee.log4jdbc-log4j2&lt;/groupId&gt; &lt;artifactId&gt;log4jdbc-log4j2-jdbc4&lt;/artifactId&gt; &lt;version&gt;1.16&lt;/version&gt; &lt;/dependency&gt; 데이터 베이스 설정 src/main/resources/spring/dataSource-context.xml &lt;bean id=\"dataSource\" class=\"org.springframework.jdbc.datasource.DriverManagerDataSource\"&gt; &lt;!-- 기존 작성 내역 --&gt; &lt;property name=\"driverClassName\" value=\"com.mysql.cj.jdbc.Driver\" /&gt; &lt;property name=\"url\" value=\"jdbc:mysql://127.0.0.1:3306/[DB_name]?allowPublicKeyRetrieval=true&amp;amp;useSSL=false&amp;amp;serverTimezone=Asia/Seoul\" /&gt;...","categories": ["dev"],
+        "tags": ["Development","Spring","Eclipse"],
+        "url": "http://localhost:4000/dev/Spring-SQL-%EB%A1%9C%EA%B7%B8-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0/",
+        "teaser":null},{
+        "title": "[Spring 블로그 만들기] 3. 게시판 리스트 화면 만들기",
+        "excerpt":"[참고] Spring 블로그 만들기 - 3. 게시판 리스트 화면 만들기 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 DB : MySQL 8.0.19 사용자가 웹 브라우저(View)에서 게시판 목록 선택 -&gt; 브라우저에서 서버로 ‘게시판 리스트 조회’ 요청을...","categories": ["dev"],
+        "tags": ["Development","Spring","Eclipse"],
+        "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-3.-%EA%B2%8C%EC%8B%9C%ED%8C%90-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%ED%99%94%EB%A9%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0/",
+        "teaser":null},{
+        "title": "부트스트랩(Bootstrap) 사용하기",
+        "excerpt":"Bootstrap · The most popular HTML, CSS, and JS library in the world. Examples · Bootstrap v4.5 CDN 방식 적용하기 CDN : Content Delivery Network &lt;head&gt; &lt;link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\" integrity=\"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk\" crossorigin=\"anonymous\"&gt; &lt;/head&gt; &lt;body&gt; &lt;script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js\" integrity=\"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI\" crossorigin=\"anonymous\"&gt;&lt;/script&gt; &lt;/body&gt; 다운로드하여 사용하기 다운로드 : Download · Bootstrap v4.5 Compiled CSS and JS...","categories": ["dev"],
+        "tags": ["Development","Bootstrap"],
+        "url": "http://localhost:4000/dev/%EB%B6%80%ED%8A%B8%EC%8A%A4%ED%8A%B8%EB%9E%A9(Bootstrap)-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0/",
         "teaser":null}]

@@ -1,0 +1,353 @@
+I"�T<p>[참고] <a href="https://freehoon.tistory.com/103">Spring 블로그 만들기 - 3. 게시판 리스트 화면 만들기 :: 훈잇 블로그</a></p>
+
+<p>다음 블로그에서 진행한 프로젝트를 따라하며 공부 중</p>
+
+<p><strong>개발 환경</strong></p>
+<ul>
+  <li>운영체제 : Mac OS</li>
+  <li>Eclipse : 2020-03 (4.15.0)</li>
+  <li>Tomcat : 9.0</li>
+  <li>DB : MySQL 8.0.19</li>
+</ul>
+
+<p>사용자가 웹 브라우저(View)에서 게시판 목록 선택
+-&gt; 브라우저에서 서버로 ‘게시판 리스트 조회’ 요청을 보냄
+-&gt; Controller 에서 사용자가 어떤 요청을 했는지 구분하여 요청에 맞는 Service 호출
+(Controller 에서는 사용자의 요청을 받는 부분)
+-&gt; Service 는 Controller 의 요청에 따라 필요한 비즈니스 로직을 처리. 필요한 경우 데이터베이스에 데이터 처리(입력, 조회, 수정, 삭제 등)를 함
+-&gt; 이 때, Service 는 데이터베이스에 바로 접근하는 것이 아니라 DAO에 관련된 작업을 맡김
+-&gt; DAO는 Service의 요청을 받아 DB에 접근하여 데이터 처리를 하고 결과를 다시 서비스에 전달
+(이 때, DB 접근에 필요한 connection 관리를 DAO가 처리)</p>
+
+<h2 id="service-만들기">Service 만들기</h2>
+
+<p><strong>Service 의 기본 기능</strong></p>
+<ul>
+  <li>게시판 리스트 조회</li>
+  <li>게시물 상세 조회</li>
+  <li>게시물 입력</li>
+  <li>게시물 수정</li>
+  <li>
+    <p>게시물 삭제</p>
+  </li>
+  <li>Package : com.jiniz.blog.board.service</li>
+  <li>Name : PostService (Interface)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.jiniz.blog.board.service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.jiniz.blog.board.model.PostVO</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PostService</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PostVO</span><span class="o">&gt;</span> <span class="nf">getPostList</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Package : com.jiniz.blog.board.service</li>
+  <li>Name : PostServiceImpl
+```java
+package com.jiniz.blog.board.service;</li>
+</ul>
+
+<p>import java.util.List;</p>
+
+<p>import javax.inject.Inject;</p>
+
+<p>import org.springframework.stereotype.Service;</p>
+
+<p>import com.jiniz.blog.board.dao.PostDAO;
+import com.jiniz.blog.board.model.PostVO;</p>
+
+<p>@Service
+public class PostServiceImpl implements PostService {</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Inject
+private PostDAO postDAO;
+
+public List&lt;PostVO&gt; getPostList() throws Exception {
+
+	return postDAO.getPostList();
+
+} } ```
+</code></pre></div></div>
+
+<h2 id="controller-만들기">Controller 만들기</h2>
+
+<ul>
+  <li>Package : com.jiniz.blog.board.controller</li>
+  <li>Name : PostController
+```java
+package com.jiniz.blog.board.controller;</li>
+</ul>
+
+<p>import javax.inject.Inject;</p>
+
+<p>import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;</p>
+
+<p>import com.jiniz.blog.board.service.PostService;</p>
+
+<p>@Controller
+@RequestMapping(value=”/board”)
+public class PostController {</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Inject
+private PostService postService;
+
+@RequestMapping(value = "/getPostList", method = RequestMethod.GET)
+public String getPostList(Model model) throws Exception {
+
+	model.addAttribute("postList", postService.getPostList());
+
+	return "board/index";
+} } ```
+</code></pre></div></div>
+
+<p>@RequestMapping 을 통해 주소를 조합할 수 있음</p>
+
+<p>@RequestMapping(value=“::/board::”)
+@RequestMapping(value = “::/getPostList::”)
+-&gt; localhost:8080/blog::/board/getPostList::</p>
+
+<p>웹 브라우저 주소창에 위 URL을 입력하면 Controller 에서 getPostList 메소드를 실행하게 됨
+-&gt; Controller의 getPostList 메소드에서는 Service의 getPostList() 를 호출
+-&gt; Service에서는 DAO의 getPostList() 호출
+-&gt; DAO의 getPostList()는 데이터베이스에서 게시판 리스트를 조회해서 결과를 PostVO 타입으로 Service에 반환
+-&gt; Service 는 반환받은 PostVO 타입의 게시판 데이터를 Controller에 전달
+-&gt; Controller 는 전달받은 데이터를 PostList 라는 이름으로 화면에 전달해야 하는데 화면의 이름은 return에 작성한 <strong>board/index</strong></p>
+
+<p>이 때, 화면을 결정 짓는 부분 : src/main/resources/servlet-context.xml</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- View Resolver 에 대한 정의 부분 --&gt;</span>
+<span class="nt">&lt;beans:bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.view.InternalResourceViewResolver"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;beans:property</span> <span class="na">name=</span><span class="s">"prefix"</span> <span class="na">value=</span><span class="s">"/WEB-INF/views/"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;beans:property</span> <span class="na">name=</span><span class="s">"suffix"</span> <span class="na">value=</span><span class="s">".jsp"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/beans:bean&gt;</span>
+</code></pre></div></div>
+<p>-&gt; prefix 와 suffix 를 조합하여 보여줄 화면을 찾아냄
+-&gt; /WEB-INF/views/ 아래에 있는 .jsp 파일을 의미함</p>
+
+<h2 id="게시판-리스트-화면-만들기">게시판 리스트 화면 만들기</h2>
+<p><code class="highlighter-rouge">src/main/webapp/WEB-INF/views</code> 아래 board 디렉토리를 생성 후, index.jsp 파일 만들어주기</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%@ page </span><span class="na">language=</span><span class="s">"java"</span><span class="na"> contentType=</span><span class="s">"text/html; charset=UTF-8"</span><span class="na">
+    pageEncoding=</span><span class="s">"UTF-8"</span><span class="nt">%&gt;</span>
+<span class="nt">&lt;%@ taglib </span><span class="na">prefix=</span><span class="s">"c"</span><span class="na"> uri=</span><span class="s">"http://java.sun.com/jsp/jstl/core"</span> <span class="nt">%&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Blog Baord<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h2&gt;</span>Post List<span class="nt">&lt;/h2&gt;</span>
+	<span class="nt">&lt;table&gt;</span>
+		<span class="nt">&lt;colgroup&gt;</span>
+			<span class="nt">&lt;col</span> <span class="na">style=</span><span class="s">"width:10%;"</span> <span class="nt">/&gt;</span>
+			<span class="nt">&lt;col</span> <span class="na">style=</span><span class="s">"width:auto;"</span> <span class="nt">/&gt;</span>
+			<span class="nt">&lt;col</span> <span class="na">style=</span><span class="s">"width:15%;"</span> <span class="nt">/&gt;</span>
+			<span class="nt">&lt;col</span> <span class="na">style=</span><span class="s">"width:10%;"</span> <span class="nt">/&gt;</span>
+			<span class="nt">&lt;col</span> <span class="na">style=</span><span class="s">"width:15%;"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;/colgroup&gt;</span>
+
+		<span class="nt">&lt;thead&gt;</span>
+			<span class="nt">&lt;tr</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;th&gt;</span>NO<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>글제목<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>작성자<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>조회수<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>작성일<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;/thead&gt;</span>
+
+		<span class="nt">&lt;tbody&gt;</span>
+			<span class="nt">&lt;c:choose&gt;</span>
+				<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">empty</span> <span class="n">postList</span><span class="si">}</span><span class="s">"</span> <span class="nt">&gt;</span>
+					<span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">colspan=</span><span class="s">"5"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>데이터가 없습니다.<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+				<span class="nt">&lt;/c:when&gt;</span>
+				<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="o">!</span><span class="n">empty</span> <span class="n">postList</span><span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;c:forEach </span><span class="na">var=</span><span class="s">"list"</span><span class="na"> items=</span><span class="s">"</span><span class="si">${</span><span class="n">postList</span><span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;tr</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;td&gt;&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span><span class="o">.</span><span class="na">pid</span><span class="si">}</span><span class="s">"</span><span class="nt">/&gt;&lt;/td&gt;</span>
+							<span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"left"</span><span class="nt">&gt;&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span><span class="o">.</span><span class="na">title</span><span class="si">}</span><span class="s">"</span><span class="nt">/&gt;&lt;/td&gt;</span>
+							<span class="nt">&lt;td&gt;&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span><span class="o">.</span><span class="na">author</span><span class="si">}</span><span class="s">"</span><span class="nt">/&gt;&lt;/td&gt;</span>
+							<span class="nt">&lt;td&gt;&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span><span class="o">.</span><span class="na">view_cnt</span><span class="si">}</span><span class="s">"</span><span class="nt">/&gt;&lt;/td&gt;</span>
+							<span class="nt">&lt;td&gt;&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span><span class="o">.</span><span class="na">created</span><span class="si">}</span><span class="s">"</span><span class="nt">/&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;/tr&gt;</span>					
+					<span class="nt">&lt;/c:forEach&gt;</span>
+				<span class="nt">&lt;/c:when&gt;</span>
+			<span class="nt">&lt;/c:choose&gt;</span>
+		<span class="nt">&lt;/tbody&gt;</span>
+
+	<span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>사용된 문법 : JSTL, SpEL</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="err">조건</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="err">조건</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="err">조건</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">else</span>
+</code></pre></div></div>
+
+<p>위 문장은 아래 문장과 동일한 동작을 수행함</p>
+<pre><code class="language-jstl">&lt;c:choose&gt;
+	&lt;c:when test="조건1"&gt;.....&lt;/c:when&gt;
+	&lt;c:when test="조건2"&gt;.....&lt;/c:when&gt;
+	&lt;c:when test="조건3"&gt;.....&lt;/c:when&gt;
+	&lt;c:otherwise&gt;...&lt;/c:otherwise&gt;
+&lt;/c:choose&gt;
+</code></pre>
+
+<p>따라서 index.jsp 에 사용된 내용은
+데이터가 없다면 ‘데이터가 없습니다’ 문구를 출력하며, 데이터가 있다면 반복문을 통해 데이터를 하나 씩 출력한다는 의미</p>
+
+<pre><code class="language-jstl">&lt;c:forEach items="postList" var="list"&gt;
+....
+&lt;/c:forEach&gt;
+</code></pre>
+<p>-&gt; postList를 list 이름으로 순차적으로 실행시키는 것</p>
+
+<h2 id="테스트">테스트</h2>
+<p>서버를 구동하여 <code class="highlighter-rouge">localhost:8080/blog/board/getPostList</code>  입력 시, 다음과 같은 화면이 나옴
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img1.png" alt="img1" /></p>
+
+<p>데이터 출력 여부를 확인하기 위해, PostDAOTest 의 Insert 부분을 몇 번 실행하거나,
+DB에 직접 데이터를 insert 한 뒤 다시 확인하기
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img2.png" alt="img2" />
+이 때, 게시물 번호가 2번 부터 시작하는 것은 이전에 테스트를 한 번 진행했기 때문에 그 뒤로 이어서 번호가 붙게 됨.</p>
+
+<p>초기화를 하고 싶다면 다음 명령어를 실행</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="p">[</span><span class="k">table_name</span><span class="p">]</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="주소-url-변경">주소 URL 변경</h2>
+<p>주소에 있는 blog 라는 프로젝트명을 빼고 싶다면</p>
+<ol>
+  <li>
+    <p>서버 명 더블클릭 후 Module 탭
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img3.png" alt="img3" /></p>
+  </li>
+  <li>
+    <p>내용을 선택 후 Edit 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img4.png" alt="img4" /></p>
+  </li>
+  <li>
+    <p>Path 의 <code class="highlighter-rouge">/blog</code> 를 <code class="highlighter-rouge">/</code> 로 변경
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img5.png" alt="img5" /></p>
+  </li>
+</ol>
+
+<p>-&gt; <code class="highlighter-rouge">localhost:8080/board/getPostList</code> 로 조회가능</p>
+
+<h2 id="부트스트랩bootstrap을-이용해-view-화면-꾸미기">부트스트랩(Bootstrap)을 이용해 View 화면 꾸미기</h2>
+<p>[BootStrap 사용하기] 참고</p>
+
+<p><strong>CDN 방식 사용</strong></p>
+
+<p>Bootstrap을 적용하기 위한 CDN 경로 추가 및 jQuery CDN 추가</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+	<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;!-- jQuery --&gt;</span>
+	<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-3.3.1.slim.min.js"</span>
+	<span class="na">integrity=</span><span class="s">"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+	<span class="c">&lt;!-- Bootstrap CSS --&gt;</span>
+	<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"</span> <span class="na">integrity=</span><span class="s">"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;title&gt;</span>Blog Baord<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Table 꾸미기
+    <ul>
+      <li>Bootstrap Table : <a href="https://getbootstrap.com/docs/4.4/content/tables/">Tables · Bootstrap</a></li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;article&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-responsive"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h2&gt;</span>Post List<span class="nt">&lt;/h2&gt;</span>
+			<span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-hover"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;colgroup&gt;</span>
+					...
+				<span class="nt">&lt;/colgroup&gt;</span>
+				<span class="nt">&lt;thead</span> <span class="na">class=</span><span class="s">"thead-dark"</span><span class="nt">&gt;</span>
+					...
+				<span class="nt">&lt;/thead&gt;</span>
+				...
+			<span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/article&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<p>여기에 적용한 스타일</p>
+<ul>
+  <li>Table head options : <a href="https://getbootstrap.com/docs/4.4/content/tables/#table-head-options">Tables · Bootstrap</a></li>
+  <li>Hoverable rows : <a href="https://getbootstrap.com/docs/4.4/content/tables/#hoverable-rows">Tables · Bootstrap</a></li>
+</ul>
+
+<ol>
+  <li>글쓰기 Button 추가
+    <ul>
+      <li>Bootstrap Button : <a href="https://getbootstrap.com/docs/4.4/components/buttons/">Buttons · Bootstrap</a></li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>			...
+			<span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;div</span> <span class="nt">&gt;</span>
+			<span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">class=</span><span class="s">"btn btn-sm btn-dark"</span> <span class="na">id=</span><span class="s">"btnWriteForm"</span><span class="nt">&gt;</span>글쓰기<span class="nt">&lt;/button&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/article&gt;</span>
+</code></pre></div></div>
+
+<p><strong>Button Event 추가</strong></p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	...
+	<span class="nt">&lt;/style&gt;</span>
+	<span class="nt">&lt;script&gt;</span>
+		<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">#btnWriteForm</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+			<span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+			<span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">${pageContext.request.contextPath}/board/postForm</span><span class="dl">"</span><span class="p">;</span>
+		<span class="p">});</span>
+	<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre></div></div>
+<p><code class="highlighter-rouge">location.href</code> -&gt; 뒤에 있는 주소로 페이지를 이동시키는 명령어</p>
+
+<ol>
+  <li>기타
+상단에서 Contents 띄우기
+```html</li>
+</ol>
+<head>
+	<title>Title</title>
+	<style>
+		body {
+			padding-top: 70px;
+			padding-bottom: 30px;
+		}
+	</style>
+</head>
+<p>```</p>
+
+<p>현재까지 화면 모습
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/blog3/img6.png" alt="img6" /></p>
+
+<h3 id="sql-로그-출력하기">SQL 로그 출력하기</h3>
+<p>로그를 통해 현재 실행되는 SQL 문장이 출력되도록 해보기
+[Spring SQL 로그 출력히기] 확인</p>
+:ET

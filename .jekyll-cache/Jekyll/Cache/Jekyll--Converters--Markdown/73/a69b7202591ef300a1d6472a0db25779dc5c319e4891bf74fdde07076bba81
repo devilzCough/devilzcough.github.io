@@ -1,0 +1,52 @@
+I"<ul>
+  <li><a href="https://getbootstrap.com/">Bootstrap · The most popular HTML, CSS, and JS library in the world.</a></li>
+  <li><a href="https://getbootstrap.com/docs/4.5/examples/">Examples · Bootstrap v4.5</a></li>
+</ul>
+
+<h2 id="cdn-방식-적용하기">CDN 방식 적용하기</h2>
+<p>CDN : Content Delivery Network</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+	<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"</span> <span class="na">integrity=</span><span class="s">"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"</span> <span class="na">integrity=</span><span class="s">"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<h2 id="다운로드하여-사용하기">다운로드하여 사용하기</h2>
+<p>다운로드 : <a href="https://getbootstrap.com/docs/4.5/getting-started/download/">Download · Bootstrap v4.5</a></p>
+<ul>
+  <li>Compiled CSS and JS -&gt; 압축풀면 됨</li>
+  <li>Source files -&gt; 압축 푼 후, dist 폴더</li>
+</ul>
+
+<p>Bootstrap 을 다운로드하고 압축을 푼 다음, css 와 js 폴더를 서버에 업로드
+만약 사용하는 프로젝트내 구조가 다음과 같다면</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/css
+/js
+fileName.html
+</code></pre></div></div>
+
+<ul>
+  <li>fileName.html</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Title<span class="nt">&lt;/title&gt;</span>
+	 <span class="c">&lt;!-- Bootstrap 의 css 사용 --&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"css/bootstrap.min.css"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+	<span class="c">&lt;!-- jQuery --&gt;</span>
+	<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  	<span class="c">&lt;!-- Bootstrap 의 javascript 사용 --&gt;</span>
+ 	<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/bootstrap.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p>; bootstrap 은 jQuery로 구성되어 있으므로 js 앞에 추가해줘야 함</p>
+:ET
