@@ -5,7 +5,7 @@ category :
 tag :
     - Development
     - Bootstrap
-comment : true
+comments : true
 author_profile : true
 toc : true
 ---
