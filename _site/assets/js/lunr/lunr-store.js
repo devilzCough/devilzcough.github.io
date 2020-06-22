@@ -46,12 +46,12 @@ var store = [{
         "teaser":null},{
         "title": "[Spring 블로그 만들기] 1. 프로젝트 생성 및 설정",
         "excerpt":"[참고] Spring 블로그 만들기 - 1. 프로젝트 생성 및 character encoding setting :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 스프링 개발이 처음이라면 다음 문서를 참고하기 Spring 개발을 위한 환경 구축 문서 참고 프로젝트 생성...","categories": ["dev"],
-        "tags": ["Development","Spring","Eclipse"],
+        "tags": ["Development","Spring","Eclipse","CloneProject"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1.-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%84%A4%EC%A0%95/",
         "teaser":null},{
         "title": "[Spring 블로그 만들기] 2. DB 설정 Part 1",
         "excerpt":"[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.1 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 DB : MySQL 8.0.19 데이터 베이스 설치가 안 되어 있다면 다음 문서 참고하기 [MySql Installation...","categories": ["dev"],
-        "tags": ["Development","Spring","Eclipse"],
+        "tags": ["Development","Spring","Eclipse","CloneProject"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-1/",
         "teaser":null},{
         "title": "Android 에서 Spring으로 데이터 전송",
@@ -61,7 +61,7 @@ var store = [{
         "teaser":null},{
         "title": "[Spring 블로그 만들기] 2. DB 설정 Part 2",
         "excerpt":"[참고] Spring 블로그 만들기 - 2. DB 셋팅 및 접속 테스트 Part.2 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 DB : MySQL 8.0.19 Create Table create table posts( pid int auto_increment comment '일련번호' primary...","categories": ["dev"],
-        "tags": ["Development","Spring","Eclipse"],
+        "tags": ["Development","Spring","Eclipse","CloneProject"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2.-DB-%EC%84%A4%EC%A0%95-Part-2/",
         "teaser":null},{
         "title": "[토비의 스프링] 1.4 제어의 역전(IoC)",
@@ -76,11 +76,16 @@ var store = [{
         "teaser":null},{
         "title": "[Spring 블로그 만들기] 3. 게시판 리스트 화면 만들기",
         "excerpt":"[참고] Spring 블로그 만들기 - 3. 게시판 리스트 화면 만들기 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 개발 환경 운영체제 : Mac OS Eclipse : 2020-03 (4.15.0) Tomcat : 9.0 DB : MySQL 8.0.19 사용자가 웹 브라우저(View)에서 게시판 목록 선택 -&gt; 브라우저에서 서버로 ‘게시판 리스트 조회’ 요청을...","categories": ["dev"],
-        "tags": ["Development","Spring","Eclipse"],
+        "tags": ["Development","Spring","Eclipse","CloneProject"],
         "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-3.-%EA%B2%8C%EC%8B%9C%ED%8C%90-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%ED%99%94%EB%A9%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0/",
         "teaser":null},{
         "title": "부트스트랩(Bootstrap) 사용하기",
         "excerpt":"Bootstrap · The most popular HTML, CSS, and JS library in the world. Examples · Bootstrap v4.5 CDN 방식 적용하기 CDN : Content Delivery Network &lt;head&gt; &lt;link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\" integrity=\"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk\" crossorigin=\"anonymous\"&gt; &lt;/head&gt; &lt;body&gt; &lt;script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js\" integrity=\"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI\" crossorigin=\"anonymous\"&gt;&lt;/script&gt; &lt;/body&gt; 다운로드하여 사용하기 다운로드 : Download · Bootstrap v4.5 Compiled CSS and JS...","categories": ["dev"],
         "tags": ["Development","Bootstrap"],
         "url": "http://localhost:4000/dev/%EB%B6%80%ED%8A%B8%EC%8A%A4%ED%8A%B8%EB%9E%A9(Bootstrap)-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0/",
+        "teaser":null},{
+        "title": "[Spring 블로그 만들기] 4. 글쓰기 화면 만들기",
+        "excerpt":"[참고] Spring 블로그 만들기 - 4.글쓰기 화면 만들기 :: 훈잇 블로그 다음 블로그에서 진행한 프로젝트를 따라하며 공부 중 Service 추가 게시판에 작성한 글을 저장할 때 호출할 Service PostService.java 내용 추가하기 public void insertPost(PostVO postVO) throws Exception; PostServiceImpl.java 내용 추가하기 @Override public void insertPost(PostVO postVO) throws Exception { postDAO.insertPost(postVO); } Controller...","categories": ["dev"],
+        "tags": ["Development","Spring","Eclipse","CloneProject"],
+        "url": "http://localhost:4000/dev/Spring-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-4.-%EA%B8%80%EC%93%B0%EA%B8%B0-%ED%99%94%EB%A9%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0/",
         "teaser":null}]
