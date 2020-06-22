@@ -1,0 +1,291 @@
+I"F<p>토비의 스프링 책의 실습 및 정리</p>
+<ul>
+  <li>실습 내용 : 1.5 스프링의 IoC</li>
+  <li>실습 환경 : Eclipse / Mac OS</li>
+</ul>
+
+<p>스프링에서는 스프링이 제어권을 가지고 직접 만들고 관계를 부여하는 오브젝트를 <strong>빈(bean)</strong> 이라고 함
+; 오브젝트 단위의 애플리케이션 컴포넌트</p>
+
+<ul>
+  <li>
+    <dl>
+      <dt><strong>스프링 빈</strong></dt>
+      <dd>스프링 컨테이너가 생성한 관계 설정, 사용 등을 제어해주는 제어의 역전이 적용된 오브젝트를 가리키는 말.</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt><strong>빈 팩토리 bean factory</strong>/<strong>애플리케이션 컨텍스트 application context</strong></dt>
+      <dd>빈의 생성과 관계 설정 같은 제어를 담당하는 IoC 오브젝트</dd>
+    </dl>
+  </li>
+</ul>
+
+<p>기존 DaoFactory
+-&gt; 어떤 클래스의 오브젝트를 생성하고 어디에서 사용하도록 연결해줄 것인가 등에 관한 정보가 평범한 자바 코드로 만들어져 있음</p>
+
+<p>애플리케이션 컨텍스트
+-&gt; 직접 이런 정보를 담고 있지는 않는 대신 별도로 설정 정보를 담고 있는 무언가를 가져와 활용
+이전 내용에서 <code class="highlighter-rouge">설계도</code> 역할을 하는 것이 이런 애플리케이션 컨텍스트와 그 설정 정보를 의미</p>
+
+<p>그 자체로 애플리케이션의 로직을 담당하지는 않으나, IoC 방식을 이용해 애플리케이션 컴포넌트를 생성하고, 사용할 관계를 맺어주는 등의 책임을 담당</p>
+
+<h2 id="daofactory-를-사용하는-애플리케이션-컨텍스트">DaoFactory 를 사용하는 애플리케이션 컨텍스트</h2>
+
+<h3 id="daofactory-를-설정정보로-만들기">DaoFactory 를 설정정보로 만들기</h3>
+<ul>
+  <li>DaoFactory</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">springbook.user.dao</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span> <span class="c1">// 애플리케이션 컨텍스트 또는 빈 팩토리가 사용할 설정정보라는 표시</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DaoFactory</span> <span class="o">{</span>
+
+	<span class="nd">@Bean</span>  		 <span class="c1">// 오브젝트 생성을 담당하는 IoC용 메소드라는 표시</span>
+	<span class="kd">public</span> <span class="nc">UserDao</span> <span class="nf">userDao</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">UserDao</span><span class="o">(</span><span class="n">connectionMaker</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="c1">// DB 연결 기능 분리</span>
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="nc">ConnectionMaker</span> <span class="nf">connectionMaker</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">DConnectionMaker</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>@Configuration</strong> : 스프링이 빈 팩토리를 위한 오브젝트 설정을 담당하는 클래스라고 인식하도록 함</li>
+  <li><strong>@Bean</strong> : 오브젝트를 만들어 주는 메소드
+-&gt; 스프링 프레임워크의 빈 팩토리 또는 애플리케이션 컨텍스트가 IoC 방식의 기능을 제공할 때 사용할 설정정보가 됨</li>
+</ul>
+
+<h3 id="daofactory를-설정정보로-사용하는-애플리케이션-컨텍스트-만들기">DaoFactory를 설정정보로 사용하는 애플리케이션 컨텍스트 만들기</h3>
+
+<p>애플리케이션 컨텍스트는 ApplicationContext 타입의 오브젝트</p>
+
+<p>@Configuration 이 붙은 자바 코드를 설정정보로 사용할 때
+-&gt; AnnotationConfigApplicationcontext 이용
+-&gt; 애플리케이션 컨텍스트 만들 때, 생성자 파라미터로 DaoFactory 클래스를 넣어줌</p>
+
+<p>ApplicationContext의 getBean()이라는 메소드를 이용하여 UserDao의 오브젝트를 가져올 수 있음</p>
+
+<ul>
+  <li>UserDaoTest(애플리케이션 컨텍스트를 적용하도록 수정)
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserDaoTest</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span><span class="o">,</span> <span class="nc">SQLException</span> <span class="o">{</span>
+
+      <span class="nc">ApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AnnotationConfigApplicationContext</span><span class="o">(</span><span class="nc">DaoFactory</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+      <span class="nc">UserDao</span> <span class="n">dao</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"userDao"</span><span class="o">,</span> <span class="nc">UserDao</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+      <span class="o">...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <dl>
+          <dt>getBean() 메소드</dt>
+          <dd>ApplicationContext 가 관리하는 오브젝트를 요청하는 메소드</dd>
+        </dl>
+      </li>
+      <li>
+        <dl>
+          <dt>getBean() 의 파라미터 “userDao”</dt>
+          <dd>ApplicationContext에 등록된 빈의 이름</dd>
+          <dd>DaoFactory에서 userDao() 메소드에 @Bean 애노테이션을 붙였는데, 이 메소드 이름이 빈의 이름이 됨</dd>
+          <dd>-&gt; userDao라는 이름의 빈을 가져온다는 것 : DaoFactory의 userDao() 메소드를 호출해서 그 결과를 가져오겠다
+            <blockquote>
+              <p>만약, 메소드 이름을 myPreciousUserDao() 라고 했다면 getBean(“myPreciousUserDao”, UserDao.class) 로 가져올 수 있음</p>
+            </blockquote>
+          </dd>
+        </dl>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<dl>
+  <dt>그런데, UserDao를 가져오는 메소드는 하나인데 이름을 사용하는 이유?</dt>
+  <dd>-&gt; UserDao를 생성하는 방식이나 구성을 다르게 가져가는 메소드를 추가할 수 있기 때문</dd>
+</dl>
+
+<p>getBean() 은 기본적으로 Object 타입으로 리턴하게 되어 있어 매번 리턴되는 오브젝트에 다시 캐스팅을 해줘야 하지만 자바 5이상의 제네릭 메소드 방식을 사용해 getBean()의 두 번째 파라미터에 리턴 타입을 주면 캐스팅을 하지 않아도 됨</p>
+
+<h3 id="필요한-라이브러리-추가">필요한 라이브러리 추가</h3>
+<p><a href="https://mvnrepository.com/">Maven Repository: Search/Browse/Explore</a></p>
+
+<p>위 사이트에서 아래 라이브러리 버전 앞 부분까지 입력하여 검색하면 원하는 버전에 해당하는 파일을 받을 수 있음</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>com.springsource.net.sf.cglib-2.2.0.jar
+com.springsource.org.apache.commons.logging-1.1.1.jar
+org.springframework.asm-3.0.7.RELEASE.jar
+org.springframework.beans-3.0.7.RELEASE.jar
+org.springframework.context-3.0.7.RELEASE.jar
+org.springframework.core-3.0.7.RELEASE.jar
+org.springframework.expression-3.0.7.RELEASE.jar
+</code></pre></div></div>
+
+<p>검색 후, 원하는 라이브러리를 선택하면 다음과 같이 나오는데
+원하는 버전 명을 클릭하면 JAR 파일을 받을 수 있음</p>
+
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img1.jpg" alt="img1" /></p>
+
+<p><img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img2.jpg" alt="img2" /></p>
+
+<p><strong>프로젝트에 추가하기</strong>
+<code class="highlighter-rouge">프로젝트 우클릭 -&gt; Build Path -&gt; Configure Build Path …</code>
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img3.jpg" alt="img3" /></p>
+
+<p><code class="highlighter-rouge">Add External JARs…</code> 선택
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img4.jpg" alt="img4" /></p>
+
+<p>다운로드 받은 jar 파일 선택 및 open
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img5.jpg" alt="img5" /></p>
+
+<p>추가된 것을 확인할 수 있음! Apply and Close!
+<img src="https://raw.githubusercontent.com/devilzCough/devilzCough.github.io/master/_posts/img/toby1-5/img6.jpg" alt="img6" /></p>
+
+<h2 id="애플리케이션-컨텍스트의-동작원리">애플리케이션 컨텍스트의 동작원리</h2>
+
+<p><strong>오브젝트 팩토리 방식 vs. 스프링의 애플리케이션 컨텍스트</strong></p>
+
+<p>스프링에서 <strong>애플리케이션 컨텍스트</strong>
+:: <strong>IoC 컨텍스트</strong>
+:: <strong>스프링 컨테이너</strong>
+:: <strong>빈 팩토리</strong>
+라고 하기도 함</p>
+
+<p>애플리케이션 컨텍스트는 ApplicationContext 인터페이스를 구현
+ApplicationContext는 빈 팩토리가 구현하는 BeanFactory 인터페이스를 상속했으므로 애플리케이션 컨텍스트는 일종의 빈 팩토리</p>
+
+<ul>
+  <li>DaoFactory -&gt; UserDao를 비롯한 DAO 오브젝트를 생성, DB 생성 오브젝트와 관계를 맺어주는 제한적인 역할</li>
+  <li>애플리케이션 컨텍스트 -&gt; 애플리케이션에서 IoC를 적용해서 관리할 모든 오브젝트에 대한 생성과 관계 설정을 담당</li>
+</ul>
+
+<p>대신, ApplicationContext에는 DaoFactory와 달리 직접 오브젝트를 생성하고 관계를 맺어주는 코드가 없고, 그런 생성 정보와 연관관계 정보를 별도의 설정 정보를 통해 얻음.</p>
+
+<p><code class="highlighter-rouge">@Configuration</code> 이 붙은 DaoFactory는 이 애플리케이션 컨텍스트가 활용하는 IoC 설정 정보.
+내부적으로는 애플리케이션 컨텍스트가 DaoFactory의 userDao() 메소드를 호출해서 오브젝트를 가져온 것을 클라이언트가 getBean()으로 요청할 때 전달해 줌.</p>
+
+<ol>
+  <li>애플리케이션 컨텍스트는 DaoFactory 클래스를 설정 정보로 등록해두고 @Bean이 붙은 메소드 이름을 가져와 빈 목록을 만듬</li>
+  <li>클라이언트가 애플리케이션 컨텍스트의 getBean() 메소드를 호출하면 자신의 빈 목록에서 요청한 이름이 있는지 찾음</li>
+  <li>있다면 빈을 생성하는 메소드를 호출해서 오브젝트를 생성시킨 후 클라이언트에 돌려줌</li>
+</ol>
+
+<p>DaoFactory와 같은 오브젝트 팩토리에서 사용했던 IoC 원리를 그대로 적용
+but, 애플리케이션 컨텍스트를 사용하는 이유는 범용적이고 유연한 방법으로 IoC 기능을 확장하기 위함</p>
+
+<h3 id="애플리케이션-컨텍스트를-사용했을-때-장점">애플리케이션 컨텍스트를 사용했을 때 장점</h3>
+<ol>
+  <li>
+    <dl>
+      <dt>클라이언트는 구체적인 팩토리 클래스를 알 필요가 없음</dt>
+      <dd>애플리케이션 컨텍스트를 사용하면 오브젝트 팩토리가 아무리 많아져도 이를 알아야 하거나 직접 사용할 필요가 없음</dd>
+      <dd>일관된 방식으로 원하는 오브젝트를 가져올 수 있음</dd>
+      <dd>자바 코드를 작성하는 대신 XML을 사용하여 설정정보를 만들 수 있음</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt>애플리케이션 컨텍스트는 종합 IoC 서비스를 제공</dt>
+      <dd>오브젝트가 만들어지는 방식, 시점과 전략을 다르게 가져갈 수도 있고, 이에 부가적으로 자동생성, 오브젝트에 대한 후처리, 정보의 조합, 설정 방식의 다변화, 인터셉팅 등 오브젝트를 효과적으로 활용할 수 있는 다양한 기능을 제공</dd>
+      <dd>빈이 사용할 수 있는 기반 기술 서비스나 외부 시스템과의 연동 등을 컨테이너 차원에서 제공하기도 함</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt>애플리케이션 컨텍스트는 빈을 검색하는 다양한 방법을 제공</dt>
+      <dd>애플리케이션 컨텍스트의 getBean() 메소드는 빈의 이름을 이용해 빈을 찾아줌</dd>
+      <dd>타입만으로 빈을 검색하거나 특별한 애노테이션 설정이 되어 있는 빈을 찾을 수 도 있음</dd>
+    </dl>
+  </li>
+</ol>
+
+<h2 id="ioc-용어-정리">IoC 용어 정리</h2>
+<h3 id="1-빈-bean">1. 빈 bean</h3>
+<dl>
+  <dt>: 빈 또는 빈 오프젝트</dt>
+  <dd>스프링이 IoC 방식으로 관리하는 오브젝트</dd>
+  <dd>관리되는 오브젝트(managed object) 라고 하기도 함</dd>
+</dl>
+
+<blockquote>
+  <p>주의점!
+스프링을 사용하는 애플리케이션에서 만들어지는 모든 오브젝트가 다 빈은 아님!!
+-&gt; 스프링이 직접 그 생성과 제어를 담당하는 오브젝트만을 빈이라고 함</p>
+</blockquote>
+
+<h3 id="2-빈-팩토리-bean-factory">2. 빈 팩토리 bean factory</h3>
+<dl>
+  <dt>: 스프링의 IoC를 담당하는 핵심 컨테이너</dt>
+  <dd>빈을 등록, 생성, 조회, 돌려주는 것 외에 부가적인 빈을 관리하는 기능 담당</dd>
+  <dd>
+    <p>보통은 이것을 확장한 애플리케이션 컨텍스트를 이용</p>
+  </dd>
+  <dd>BeanFactory 라고 붙여쓰면 빈 팩토리가 구현하고 있는 가장 기본적인 인터페이스의 이름이 됨</dd>
+  <dd>이 인터페이스에 getBean() 과 같은 메소드가 정의되어 있음</dd>
+</dl>
+
+<h3 id="3-애플리케이션-컨텍스트-application-context">3. 애플리케이션 컨텍스트 application context</h3>
+<dl>
+  <dt>: 빈 팩토리를 확장한 IoC 컨테이너</dt>
+  <dd>기본적인 기능은 빈 팩토리와 동일</dd>
+  <dd>스프링이 제공하는 각종 부가 서비스를 추가로 제공</dd>
+</dl>
+
+<ul>
+  <li><strong>빈 팩토리</strong> 라고 할 땐, 주로 빈의 생성과 제어의 관점</li>
+  <li><strong>애플리케이션 컨텍스트</strong> 라고 할 땐, 스프링이 제공하는 애플리케이션 지원 기능을 모두 포함해서 이야기 하는 것</li>
+</ul>
+
+<dl>
+  <dt>: 애플리케이션 컨텍스트라는 용어를 빈 팩토리 보다 더 많이 사용</dt>
+  <dd>ApplicationContext 라고 적으면 애플리케이션 컨텍스트가 구현해야 하는 기본 인터페이스를 가리키는 것이기도 함</dd>
+  <dd>ApplicationContext는  BeanFactory 를 상속</dd>
+</dl>
+
+<h3 id="4-설정-정보설정-메타정보-configuration-metadata">4. 설정 정보/설정 메타정보 configuration metadata</h3>
+<dl>
+  <dt>: 애플리케이션 컨텍스트 또는 빈 팩토리가 IoC를 적용하기 위해 사용하는 메타 정보</dt>
+  <dd>컨테이너에 어떤 기능을 세팅하거나 조정하는 경우도 사용
+but, IoC 컨테이너에 의해 관리되는 애플리케이션 오브젝트를 생성하고 구성할 때 사용</dd>
+  <dd>애플리케이션의 <strong>형상 정보</strong> 또는 애플리케이션의 전체 그림이 그려진 <strong>청사진</strong> 이라고도 함</dd>
+</dl>
+
+<h3 id="5-컨테이너-container-또는-ioc-컨테이너">5. 컨테이너 container 또는 IoC 컨테이너</h3>
+<p>: IoC 방식으로 빈을 관리한다는 의미에서 <em>애플리케이션 컨텍스트나 빈 팩토리</em>를 <strong>컨테이너</strong> 또는 <strong>IoC 컨테이너</strong> 라고도 함</p>
+<ul>
+  <li>IoC 컨테이너 : 주로 빈 팩토리의 관점</li>
+  <li>컨테이너 / 스프링 컨테이너 : 애플리케이션 컨텍스트를 가리킴</li>
+</ul>
+
+<dl>
+  <dt>: 컨테이너라는 말 자체가 IoC의 개념을 가짐</dt>
+  <dt>-&gt; 애플리케이션 컨텍스트 대신에 스프링 컨테이너라 하기도 함</dt>
+  <dd>
+    <p>컨테이너는 애플리케이션 컨텍스트 보다 추상적인 표현</p>
+  </dd>
+  <dd>
+    <p>애플리케이션 컨텍스트는 그 자체로 ApplicationContext 인터페이스를 구현한 오브젝트를 가리키기도 하는데, 애플리케이션 컨텍스트 오브젝트는 하나의 애플리케이션에서 보통 여러 개가 만들어져 사용 됨.
+-&gt; 이를 통틀어 <strong>스프링 컨테이너</strong> 라고 할 수 있음</p>
+  </dd>
+  <dd>
+    <p>예로, ‘스프링에 빈을 등록하고’ 라는 식으로 말하는 경우,
+스프링이라는 말은 스프링 컨테이너 또는 애플리케이션 컨텍스트를 가리킴</p>
+  </dd>
+</dl>
+
+<h3 id="6-스프링-프레임워크">6. 스프링 프레임워크</h3>
+<dl>
+  <dt>: IoC 컨테이너, 애플리케이션 컨텍스트를 포함하여 스프링이 제공하는 모든 기능을 통틀어 말할 때 주로 사용</dt>
+  <dd>그냥 <strong>스프링</strong> 이라고도 함</dd>
+</dl>
+:ET
